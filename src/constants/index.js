@@ -196,6 +196,28 @@ const projects = [
     source_code_link: "https://github.com/zVapor-Dev/Doubt-Discord-Bot",
     invite_link: 'https://top.gg/bot/941052587837378570/invite'
   },
+  {
+    name: "Portfolio",
+    description:
+      "An advanced multi-purpose discord bot designed to make your discord server run more smoothly!.",
+    tags: [
+      {
+        name: "react",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "tailwind.css",
+        color: "green-text-gradient",
+      },
+      {
+        name: "three.js",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: 'https://i.imgur.com/9ZKpiWf.png',
+    source_code_link: "https://github.com/zVapor-Dev/portfolio",
+    invite_link: 'https://www.zvapor.xyz'
+  },
 ];
 
 export { services, technologies, experiences, testimonials, projects };
