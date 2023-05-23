@@ -134,7 +134,8 @@ const experiences = [
 
 const testimonials = [
   {
-    testimonial: "I really like the work Vapor has done.",
+    testimonial:
+      "Vapor is a great addition to the team, I can trust that the work he produces is done to a high standard. Customer Service is on point!",
     name: "NP",
     designation: "CEO",
     company: "Resolv",
@@ -142,7 +143,8 @@ const testimonials = [
       "https://cdn.discordapp.com/avatars/887296580955283537/a_835f4f17d8dc5028aaf4662e2c9f2dc9.webp?size=80",
   },
   {
-    testimonial: "I try to work hard to achieve the best work possible. I put my heart and soul into my work.",
+    testimonial:
+      "I try to work hard to achieve the best work possible. I put my heart and soul into my work.",
     name: "Vapor",
     designation: "CEO",
     company: "Vapor Development",
@@ -155,7 +157,8 @@ const testimonials = [
     name: "Vampy",
     designation: "Developer",
     company: "Resolv",
-    image: "https://cdn.discordapp.com/avatars/330528293843632130/ec22be68549dbfdc4d3fa22619d2a778.webp?size=80",
+    image:
+      "https://cdn.discordapp.com/avatars/330528293843632130/ec22be68549dbfdc4d3fa22619d2a778.webp?size=80",
   },
 ];
 
@@ -172,11 +175,12 @@ const projects = [
       {
         name: "mongodb",
         color: "green-text-gradient",
-      }
+      },
     ],
-    image: 'https://cdn.discordapp.com/splashes/1038813049362059314/247d4322586c7d03d82bc6750bd1e617.jpg?size=2048',
+    image:
+      "https://cdn.discordapp.com/splashes/1038813049362059314/247d4322586c7d03d82bc6750bd1e617.jpg?size=2048",
     source_code_link: "https://github.com/Specian-Resolv/ResolvBeta",
-    invite_link: 'https://resolvbot.xyz/invite'
+    invite_link: "https://resolvbot.xyz/invite",
   },
   {
     name: "Doubt Bot",
@@ -192,9 +196,10 @@ const projects = [
         color: "green-text-gradient",
       },
     ],
-    image: 'https://cdn.discordapp.com/icons/833675115408523264/845331e69b03351e3c40bd48938bd469.webp?size=128',
+    image:
+      "https://cdn.discordapp.com/icons/833675115408523264/845331e69b03351e3c40bd48938bd469.webp?size=128",
     source_code_link: "https://github.com/zVapor-Dev/Doubt-Discord-Bot",
-    invite_link: 'https://top.gg/bot/941052587837378570/invite'
+    invite_link: "https://top.gg/bot/941052587837378570/invite",
   },
   {
     name: "Portfolio",
@@ -214,9 +219,9 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: 'https://i.imgur.com/9ZKpiWf.png',
+    image: "https://i.imgur.com/9ZKpiWf.png",
     source_code_link: "https://github.com/zVapor-Dev/portfolio",
-    invite_link: 'https://www.zvapor.xyz'
+    invite_link: "https://www.zvapor.xyz",
   },
 ];
 
