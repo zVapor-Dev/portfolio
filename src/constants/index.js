@@ -48,7 +48,7 @@ const services = [
     icon: web,
   },
   {
-    title: "React Native Developer",
+    title: "Discord Bot Developer",
     icon: mobile,
   },
   {
@@ -82,10 +82,10 @@ const technologies = [
     name: "React JS",
     icon: reactjs,
   },
-  {
-    name: "Redux Toolkit",
-    icon: redux,
-  },
+  // {
+  //   name: "Redux Toolkit",
+  //   icon: redux,
+  // },
   {
     name: "Tailwind CSS",
     icon: tailwind,
@@ -106,10 +106,10 @@ const technologies = [
     name: "git",
     icon: git,
   },
-  {
-    name: "figma",
-    icon: figma,
-  },
+  // {
+  //   name: "figma",
+  //   icon: figma,
+  // },
   {
     name: "docker",
     icon: docker,
@@ -161,67 +161,40 @@ const testimonials = [
 
 const projects = [
   {
-    name: "Car Rent",
+    name: "Resolv",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "Resolv is the world's first staff management Discord bot. Strikes, Breaks, Disciplinaries, Activity management and more!.",
     tags: [
       {
-        name: "react",
+        name: "discord.js",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "mongodb",
+        color: "green-text-gradient",
+      }
+    ],
+    image: 'https://cdn.discordapp.com/splashes/1038813049362059314/247d4322586c7d03d82bc6750bd1e617.jpg?size=2048',
+    source_code_link: "https://github.com/Specian-Resolv/ResolvBeta",
+    invite_link: 'https://resolvbot.xyz/invite'
+  },
+  {
+    name: "Doubt Bot",
+    description:
+      "An advanced multi-purpose discord bot designed to make your discord server run more smoothly!.",
+    tags: [
+      {
+        name: "discord.js",
         color: "blue-text-gradient",
       },
       {
         name: "mongodb",
         color: "green-text-gradient",
       },
-      {
-        name: "tailwind",
-        color: "pink-text-gradient",
-      },
     ],
-    image: carrent,
-    source_code_link: "https://github.com/",
-  },
-  {
-    name: "Job IT",
-    description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
-    tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "restapi",
-        color: "green-text-gradient",
-      },
-      {
-        name: "scss",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: jobit,
-    source_code_link: "https://github.com/",
-  },
-  {
-    name: "Trip Guide",
-    description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
-    tags: [
-      {
-        name: "nextjs",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "supabase",
-        color: "green-text-gradient",
-      },
-      {
-        name: "css",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: tripguide,
-    source_code_link: "https://github.com/",
+    image: 'https://cdn.discordapp.com/icons/833675115408523264/845331e69b03351e3c40bd48938bd469.webp?size=128',
+    source_code_link: "https://github.com/zVapor-Dev/Doubt-Discord-Bot",
+    invite_link: 'https://top.gg/bot/941052587837378570/invite'
   },
 ];
 
