@@ -22,12 +22,11 @@ const Hero = () => {
             Hi, I'm <span className="text-[#915EFF]">Vapor</span>
           </h1>
           <p className={`${styles.heroSubText} mt-2 text-white-100`}>
-            I'm a <span className="text-[#915EFF]">Frontend Developer</span> and{" "}
+            I'm a <span className="text-[#915EFF]">NodeJS Developer</span>{" "}
             <br
               className="sm:block hidden
             "
-            />
-            <span className="text-[#915EFF]"> Node.JS Developer</span> based in
+            /> based in
             the Netherlands.
           </p>
         </div>

@@ -44,16 +44,8 @@ export const navLinks = [
 
 const services = [
   {
-    title: "Web Developer",
-    icon: web,
-  },
-  {
     title: "Discord Bot Developer",
     icon: mobile,
-  },
-  {
-    title: "Backend Developer",
-    icon: backend,
   },
   {
     title: "Content Creator",
@@ -82,10 +74,6 @@ const technologies = [
     name: "React JS",
     icon: reactjs,
   },
-  // {
-  //   name: "Redux Toolkit",
-  //   icon: redux,
-  // },
   {
     name: "Tailwind CSS",
     icon: tailwind,
@@ -106,10 +94,6 @@ const technologies = [
     name: "git",
     icon: git,
   },
-  // {
-  //   name: "figma",
-  //   icon: figma,
-  // },
   {
     name: "docker",
     icon: docker,
@@ -164,28 +148,9 @@ const testimonials = [
 
 const projects = [
   {
-    name: "Resolv",
-    description:
-      "Resolv is the world's first staff management Discord bot. Strikes, Breaks, Disciplinaries, Activity management and more!.",
-    tags: [
-      {
-        name: "discord.js",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "mongodb",
-        color: "green-text-gradient",
-      },
-    ],
-    image:
-      "https://cdn.discordapp.com/splashes/1038813049362059314/247d4322586c7d03d82bc6750bd1e617.jpg?size=2048",
-    source_code_link: "https://github.com/Specian-Resolv/ResolvBeta",
-    invite_link: "https://resolvbot.xyz/invite",
-  },
-  {
     name: "Doubt Bot",
     description:
-      "An advanced multi-purpose discord bot designed to make your discord server run more smoothly!.",
+      "An advanced multi-purpose discord bot designed to make your discord server run more smoothly!",
     tags: [
       {
         name: "discord.js",
@@ -204,7 +169,7 @@ const projects = [
   {
     name: "Portfolio",
     description:
-      "An advanced multi-purpose discord bot designed to make your discord server run more smoothly!.",
+      "The portfolio you are currently viewing, built using React, Tailwind CSS and Three.js.",
     tags: [
       {
         name: "react",
