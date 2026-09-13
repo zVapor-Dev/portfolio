@@ -58,11 +58,9 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 
 4. **Create an admin user**
 
-   On first visit to `/admin`, Payload prompts you to create the initial user account. This account is required before seeding or editing content.
+   On first visit to `/admin`, Payload prompts you to create the initial user account. This account is required for CMS editing and the authenticated HTTP seed route.
 
 5. **Seed demo content** (optional)
-
-   After the admin user exists:
 
    ```bash
    npm run seed
@@ -85,6 +83,8 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 Live preview is enabled for the collections and `site` global. Preview URLs use `NEXT_PUBLIC_SERVER_URL` and require `PREVIEW_SECRET`.
 
 The navbar **Login** button and hero CTA link to `/admin`.
+
+For schema-change workflow, seeding constraints, preview behavior, and production database notes, see [docs/cms.md](./docs/cms.md).
 
 ## Contact form (SMTP)
 
@@ -113,7 +113,7 @@ The contact form submits to `POST /api/contact`. Outbound mail is sent with Node
 | `npm run dev` | Start Next.js dev server |
 | `npm run build` | Generate Payload types and production build |
 | `npm run start` | Run production server |
-| `npm run seed` | Seed CMS content (requires database + admin user) |
+| `npm run seed` | Seed CMS content via Payload local API (requires database) |
 | `npm run generate:types` | Regenerate `src/payload-types.ts` |
 | `npm run lint` | Run Next.js ESLint |
 
