@@ -1,43 +1,31 @@
-/** Safe relative paths for preview redirects (no query/hash). */
+/** Strict relative paths for preview redirects (no query, hash, or encoding). */
 const RELATIVE_PATH = /^\/[a-zA-Z0-9/_-]*$/
 
 const DANGEROUS_SCHEME = /^(javascript|data|vbscript):/i
 
 /**
- * Resolve a preview redirect target to a safe same-origin relative path.
- * Returns null when the path must be rejected.
+ * Allow only strict same-site relative paths for preview redirects.
+ * Rejects percent-encoding (e.g. /%2f%2fevil.com) and protocol-relative paths.
  */
-export function getSafeRedirectPath(path: string, origin: string): string | null {
-  if (!path || path.startsWith('//') || DANGEROUS_SCHEME.test(path)) {
-    return null
+export function isSafeRedirectPath(path: string): boolean {
+  if (!path || path.includes('%')) {
+    return false
   }
 
+  if (path.startsWith('//')) return false
   if (path.includes('://') || path.includes('\\') || /[\0\r\n]/.test(path)) {
-    return null
+    return false
+  }
+  if (DANGEROUS_SCHEME.test(path)) return false
+
+  if (!RELATIVE_PATH.test(path)) {
+    return false
   }
 
-  if (RELATIVE_PATH.test(path)) {
-    return path
-  }
-
+  // Belt-and-suspenders: decoded form must match (catches encoded bypass attempts).
   try {
-    const resolved = new URL(path, origin)
-    const base = new URL(origin)
-
-    if (resolved.protocol !== 'http:' && resolved.protocol !== 'https:') {
-      return null
-    }
-
-    if (resolved.origin !== base.origin) {
-      return null
-    }
-
-    if (RELATIVE_PATH.test(resolved.pathname)) {
-      return resolved.pathname
-    }
+    return decodeURIComponent(path) === path
   } catch {
-    return null
+    return false
   }
-
-  return null
 }
