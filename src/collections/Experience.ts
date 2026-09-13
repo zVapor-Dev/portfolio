@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { validateAllowedUrl } from '@/lib/validateUrl'
+
 export const Experience: CollectionConfig = {
   slug: 'experience',
   labels: {
@@ -53,6 +55,7 @@ export const Experience: CollectionConfig = {
       type: 'text',
       label: 'Icon URL',
       defaultValue: '/discord.png',
+      validate: validateAllowedUrl,
     },
     {
       name: 'iconBg',

@@ -1,5 +1,11 @@
 import nodemailer from 'nodemailer'
 
+import {
+  escapeHtml,
+  formatHtmlParagraph,
+  sanitizeEmailHeader,
+} from './escapeHtml'
+
 export type ContactPayload = {
   name: string
   email: string
@@ -39,13 +45,16 @@ export async function sendContactEmail(data: ContactPayload) {
   const from = process.env.SMTP_FROM || process.env.SMTP_USER
   const to = process.env.CONTACT_TO!
 
+  const safeName = sanitizeEmailHeader(data.name)
+  const safeEmail = sanitizeEmailHeader(data.email)
+
   await transporter.sendMail({
     from,
     to,
-    replyTo: data.email,
-    subject: `Portfolio contact from ${data.name}`,
+    replyTo: safeEmail,
+    subject: `Portfolio contact from ${safeName}`,
     text: `Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`,
-    html: `<p><strong>Name:</strong> ${data.name}</p><p><strong>Email:</strong> ${data.email}</p><p>${data.message}</p>`,
+    html: `<p><strong>Name:</strong> ${escapeHtml(data.name)}</p><p><strong>Email:</strong> ${escapeHtml(data.email)}</p><p>${formatHtmlParagraph(data.message)}</p>`,
   })
 
   return { ok: true }

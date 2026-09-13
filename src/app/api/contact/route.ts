@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { contactSchema } from '@/lib/contactSchema'
 import { isSmtpConfigured, sendContactEmail } from '@/lib/email'
+import {
+  checkContactRateLimit,
+  getClientIp,
+  rateLimitResponseHeaders,
+} from '@/lib/rateLimit'
 
 export async function POST(req: NextRequest) {
   if (!isSmtpConfigured()) {
@@ -12,10 +18,29 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { name, email, message } = body
+    const parsed = contactSchema.safeParse(body)
 
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 })
+    if (!parsed.success) {
+      const message = parsed.error.issues[0]?.message ?? 'Invalid request body.'
+      return NextResponse.json({ error: message }, { status: 400 })
+    }
+
+    const { name, email, message } = parsed.data
+    const clientIp = getClientIp(req)
+    const normalizedEmail = email.toLowerCase()
+
+    const rateLimit = await checkContactRateLimit([
+      `contact:${clientIp}`,
+      `contact:email:${normalizedEmail}`,
+    ])
+
+    const rateHeaders = rateLimitResponseHeaders(rateLimit)
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many contact requests. Please try again later.' },
+        { status: 429, headers: rateHeaders },
+      )
     }
 
     const result = await sendContactEmail({ name, email, message })
@@ -24,7 +49,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: result.error }, { status: 500 })
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true }, { headers: rateHeaders })
   } catch {
     return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 })
   }

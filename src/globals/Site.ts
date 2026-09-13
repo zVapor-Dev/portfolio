@@ -1,5 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
+import { validateAllowedUrl } from '@/lib/validateUrl'
+
 export const Site: GlobalConfig = {
   slug: 'site',
   label: 'Site Content',
@@ -130,9 +132,9 @@ export const Site: GlobalConfig = {
           label: 'Socials',
           fields: [
             { name: 'email', type: 'email', required: true },
-            { name: 'website', type: 'text' },
-            { name: 'github', type: 'text' },
-            { name: 'twitter', type: 'text' },
+            { name: 'website', type: 'text', validate: validateAllowedUrl },
+            { name: 'github', type: 'text', validate: validateAllowedUrl },
+            { name: 'twitter', type: 'text', validate: validateAllowedUrl },
           ],
         },
       ],
