@@ -61,3 +61,4 @@ This uses the same upsert logic as `npm run seed` and requires an active Payload
 - Seed data lives in `src/seed/data.ts`. Update that file, then re-run seed.
 - The public site reads from Payload via the Local API and only falls back to `src/lib/fallbacks.ts` when the database is unavailable or empty.
 - `PAYLOAD_SECRET` remains fail-closed in production — seed commands must provide it explicitly.
+- Preview, contact-form, CMS URL validation, and production rate-limit controls are documented in `docs/SECURITY.md`.
