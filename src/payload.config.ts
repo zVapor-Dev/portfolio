@@ -84,7 +84,9 @@ export default buildConfig({
     pool: {
       connectionString,
     },
-    push: process.env.NODE_ENV !== 'production',
+    // Schema changes ship via committed migrations (src/migrations). Push is dev-only.
+    push: process.env.NODE_ENV === 'development',
+    migrationDir: path.resolve(dirname, 'migrations'),
   }),
   sharp,
 })

@@ -8,10 +8,12 @@
   },
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
-    "build": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types && next build",
+    "build": "cross-env NODE_OPTIONS=--no-deprecation payload migrate && payload generate:types && next build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "lint": "next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "migrate:status": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:status",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/run.ts"
