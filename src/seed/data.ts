@@ -29,10 +29,29 @@ export const seedSite = {
     { label: 'Deploy', value: 'Vercel, Cloudflare, Docker' },
     { label: 'Background', value: 'Discord bots & community tooling' },
   ],
+  experienceLabel: 'Experience',
+  experienceTitle: "Where I've built.",
+  experienceDescription:
+    'A mix of independent product work and long-running community projects — with Discord bot development as an earlier chapter that still informs how I think about reliability and scale.',
+  stackLabel: 'Stack',
+  stackTitle: 'Tools I reach for.',
+  stackDescription:
+    'A pragmatic toolkit for shipping typed, deployable web products — from UI components to auth, databases, and edge infrastructure.',
+  workLabel: 'Selected work',
+  workTitle: 'Projects that shipped.',
+  workDescription:
+    'A focused set of projects — open-source packages, this portfolio, and production Discord tooling. No filler, no work-in-progress badges.',
   contactLabel: 'Contact',
   contactTitle: "Let's talk.",
   contactDescription:
     'Open to collaborations, freelance work, and interesting product ideas. Drop a message or reach out directly.',
+  navLinks: [
+    { anchor: 'about', title: 'About' },
+    { anchor: 'experience', title: 'Experience' },
+    { anchor: 'stack', title: 'Stack' },
+    { anchor: 'work', title: 'Work' },
+    { anchor: 'contact', title: 'Contact' },
+  ],
   email: 'contact@zvapor.xyz',
   website: 'https://www.zvapor.xyz',
   github: 'https://github.com/zVapor-Dev',
@@ -41,6 +60,7 @@ export const seedSite = {
 
 export const seedProjects = [
   {
+    seedKey: 'commapor',
     title: 'Commapor',
     description:
       'Published npm package (@zvapor-dev/commapor) — a discord.js v14 command handler with MongoDB integration. Modular, type-safe, and built for production bot architectures.',
@@ -54,6 +74,7 @@ export const seedProjects = [
     published: true,
   },
   {
+    seedKey: 'portfolio',
     title: 'Portfolio',
     description:
       'This site — a Next.js + Payload portfolio with a dark vapor aesthetic, motion accents, and CMS-driven content.',
@@ -72,6 +93,7 @@ export const seedProjects = [
     published: true,
   },
   {
+    seedKey: 'doubt-bot',
     title: 'Doubt Bot',
     description:
       'Advanced multi-purpose Discord bot — moderation, automation, and server management tools designed to keep communities running smoothly.',
@@ -85,22 +107,23 @@ export const seedProjects = [
 ]
 
 export const seedTechnologies = [
-  { name: 'TypeScript', category: 'language' as const, order: 1 },
-  { name: 'React', category: 'frontend' as const, order: 2 },
-  { name: 'Node.js', category: 'backend' as const, order: 3 },
-  { name: 'Prisma', category: 'backend' as const, order: 4 },
-  { name: 'Tailwind CSS', category: 'frontend' as const, order: 5 },
-  { name: 'shadcn/ui', category: 'frontend' as const, order: 6 },
-  { name: 'Vercel', category: 'platform' as const, order: 7 },
-  { name: 'Clerk', category: 'platform' as const, order: 8 },
-  { name: 'Cloudflare', category: 'platform' as const, order: 9 },
-  { name: 'MongoDB', category: 'database' as const, order: 10 },
-  { name: 'Three.js', category: 'frontend' as const, order: 11 },
-  { name: 'Docker', category: 'platform' as const, order: 12 },
+  { seedKey: 'typescript', name: 'TypeScript', category: 'language' as const, order: 1 },
+  { seedKey: 'react', name: 'React', category: 'frontend' as const, order: 2 },
+  { seedKey: 'nodejs', name: 'Node.js', category: 'backend' as const, order: 3 },
+  { seedKey: 'prisma', name: 'Prisma', category: 'backend' as const, order: 4 },
+  { seedKey: 'tailwind', name: 'Tailwind CSS', category: 'frontend' as const, order: 5 },
+  { seedKey: 'shadcn', name: 'shadcn/ui', category: 'frontend' as const, order: 6 },
+  { seedKey: 'vercel', name: 'Vercel', category: 'platform' as const, order: 7 },
+  { seedKey: 'clerk', name: 'Clerk', category: 'platform' as const, order: 8 },
+  { seedKey: 'cloudflare', name: 'Cloudflare', category: 'platform' as const, order: 9 },
+  { seedKey: 'mongodb', name: 'MongoDB', category: 'database' as const, order: 10 },
+  { seedKey: 'threejs', name: 'Three.js', category: 'frontend' as const, order: 11 },
+  { seedKey: 'docker', name: 'Docker', category: 'platform' as const, order: 12 },
 ]
 
 export const seedExperience = [
   {
+    seedKey: 'discord-bot-dev',
     title: 'Bot Developer',
     company: 'Discord Ecosystem',
     date: 'Q1 2019 — Present',

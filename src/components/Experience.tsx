@@ -2,21 +2,22 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import type { ExperienceContent } from '@/lib/types'
+import type { ExperienceContent, SiteContent } from '@/lib/types'
 
-type Props = { experience: ExperienceContent[] }
+type Props = {
+  experience: ExperienceContent[]
+  site: SiteContent
+}
 
-export default function Experience({ experience }: Props) {
+export default function Experience({ experience, site }: Props) {
   return (
     <section className="relative z-10 mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
       <span className="hash-span" id="experience">&nbsp;</span>
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="section-label">Experience</p>
-        <h2 className="section-title mt-3">Where I&apos;ve built.</h2>
+        <p className="section-label">{site.experienceLabel}</p>
+        <h2 className="section-title mt-3">{site.experienceTitle}</h2>
         <p className="mt-4 max-w-2xl text-base text-vapor-muted">
-          A mix of independent product work and long-running community projects —
-          with Discord bot development as an earlier chapter that still informs
-          how I think about reliability and scale.
+          {site.experienceDescription}
         </p>
       </motion.div>
 

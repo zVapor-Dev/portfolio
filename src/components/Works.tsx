@@ -2,20 +2,22 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import type { ProjectContent } from '@/lib/types'
+import type { ProjectContent, SiteContent } from '@/lib/types'
 
-type Props = { projects: ProjectContent[] }
+type Props = {
+  projects: ProjectContent[]
+  site: SiteContent
+}
 
-export default function Works({ projects }: Props) {
+export default function Works({ projects, site }: Props) {
   return (
     <section className="relative z-10 mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
       <span className="hash-span" id="work">&nbsp;</span>
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="section-label">Selected work</p>
-        <h2 className="section-title mt-3">Projects that shipped.</h2>
+        <p className="section-label">{site.workLabel}</p>
+        <h2 className="section-title mt-3">{site.workTitle}</h2>
         <p className="mt-4 max-w-2xl text-base text-vapor-muted">
-          A focused set of projects — open-source packages, this portfolio, and
-          production Discord tooling. No filler, no work-in-progress badges.
+          {site.workDescription}
         </p>
       </motion.div>
 
