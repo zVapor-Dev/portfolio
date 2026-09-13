@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import type { TechnologyContent } from '@/lib/types'
+import type { SiteContent, TechnologyContent } from '@/lib/types'
 
 const categoryLabels: Record<string, string> = {
   language: 'Languages',
@@ -19,9 +19,12 @@ const categoryColors: Record<string, string> = {
   platform: 'border-cyan-500/30 text-cyan-300',
 }
 
-type Props = { technologies: TechnologyContent[] }
+type Props = {
+  technologies: TechnologyContent[]
+  site: SiteContent
+}
 
-export default function Tech({ technologies }: Props) {
+export default function Tech({ technologies, site }: Props) {
   const grouped = technologies.reduce<Record<string, TechnologyContent[]>>((acc, tech) => {
     if (!acc[tech.category]) acc[tech.category] = []
     acc[tech.category].push(tech)
@@ -32,11 +35,10 @@ export default function Tech({ technologies }: Props) {
     <section className="relative z-10 mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
       <span className="hash-span" id="stack">&nbsp;</span>
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="section-label">Stack</p>
-        <h2 className="section-title mt-3">Tools I reach for.</h2>
+        <p className="section-label">{site.stackLabel}</p>
+        <h2 className="section-title mt-3">{site.stackTitle}</h2>
         <p className="mt-4 max-w-2xl text-base text-vapor-muted">
-          A pragmatic toolkit for shipping typed, deployable web products — from
-          UI components to auth, databases, and edge infrastructure.
+          {site.stackDescription}
         </p>
       </motion.div>
 

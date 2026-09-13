@@ -67,11 +67,63 @@ export const Site: GlobalConfig = {
           ],
         },
         {
+          label: 'Experience',
+          fields: [
+            { name: 'experienceLabel', type: 'text', defaultValue: 'Experience' },
+            { name: 'experienceTitle', type: 'text', defaultValue: "Where I've built." },
+            {
+              name: 'experienceDescription',
+              type: 'textarea',
+              defaultValue:
+                'A mix of independent product work and long-running community projects — with Discord bot development as an earlier chapter that still informs how I think about reliability and scale.',
+            },
+          ],
+        },
+        {
+          label: 'Stack',
+          fields: [
+            { name: 'stackLabel', type: 'text', defaultValue: 'Stack' },
+            { name: 'stackTitle', type: 'text', defaultValue: 'Tools I reach for.' },
+            {
+              name: 'stackDescription',
+              type: 'textarea',
+              defaultValue:
+                'A pragmatic toolkit for shipping typed, deployable web products — from UI components to auth, databases, and edge infrastructure.',
+            },
+          ],
+        },
+        {
+          label: 'Work',
+          fields: [
+            { name: 'workLabel', type: 'text', defaultValue: 'Selected work' },
+            { name: 'workTitle', type: 'text', defaultValue: 'Projects that shipped.' },
+            {
+              name: 'workDescription',
+              type: 'textarea',
+              defaultValue:
+                'A focused set of projects — open-source packages, this portfolio, and production Discord tooling. No filler, no work-in-progress badges.',
+            },
+          ],
+        },
+        {
           label: 'Contact',
           fields: [
             { name: 'contactLabel', type: 'text', defaultValue: 'Contact' },
             { name: 'contactTitle', type: 'text', defaultValue: "Let's talk." },
             { name: 'contactDescription', type: 'textarea' },
+          ],
+        },
+        {
+          label: 'Navigation',
+          fields: [
+            {
+              name: 'navLinks',
+              type: 'array',
+              fields: [
+                { name: 'anchor', type: 'text', required: true },
+                { name: 'title', type: 'text', required: true },
+              ],
+            },
           ],
         },
         {

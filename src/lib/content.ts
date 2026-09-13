@@ -52,6 +52,14 @@ export async function getPortfolioContent(): Promise<PortfolioContent> {
       return fallbackContent
     }
 
+    const navLinks =
+      siteGlobal.navLinks
+        ?.filter((link) => link.anchor && link.title)
+        .map((link) => ({
+          id: link.anchor,
+          title: link.title,
+        })) || fallbackContent.navLinks
+
     return {
       site: {
         name: siteGlobal.name,
@@ -61,7 +69,7 @@ export async function getPortfolioContent(): Promise<PortfolioContent> {
         headline: siteGlobal.headline,
         headlineAccent: siteGlobal.headlineAccent,
         heroDescription: siteGlobal.heroDescription,
-        aboutLabel: siteGlobal.aboutLabel || 'About',
+        aboutLabel: siteGlobal.aboutLabel || fallbackContent.site.aboutLabel,
         aboutTitle: siteGlobal.aboutTitle,
         aboutParagraphs:
           siteGlobal.aboutParagraphs?.map((p) => p.paragraph).filter(Boolean) ||
@@ -71,8 +79,23 @@ export async function getPortfolioContent(): Promise<PortfolioContent> {
             label: h.label,
             value: h.value,
           })) || fallbackContent.site.highlights,
-        contactLabel: siteGlobal.contactLabel || 'Contact',
-        contactTitle: siteGlobal.contactTitle || "Let's talk.",
+        experienceLabel:
+          siteGlobal.experienceLabel || fallbackContent.site.experienceLabel,
+        experienceTitle:
+          siteGlobal.experienceTitle || fallbackContent.site.experienceTitle,
+        experienceDescription:
+          siteGlobal.experienceDescription ||
+          fallbackContent.site.experienceDescription,
+        stackLabel: siteGlobal.stackLabel || fallbackContent.site.stackLabel,
+        stackTitle: siteGlobal.stackTitle || fallbackContent.site.stackTitle,
+        stackDescription:
+          siteGlobal.stackDescription || fallbackContent.site.stackDescription,
+        workLabel: siteGlobal.workLabel || fallbackContent.site.workLabel,
+        workTitle: siteGlobal.workTitle || fallbackContent.site.workTitle,
+        workDescription:
+          siteGlobal.workDescription || fallbackContent.site.workDescription,
+        contactLabel: siteGlobal.contactLabel || fallbackContent.site.contactLabel,
+        contactTitle: siteGlobal.contactTitle || fallbackContent.site.contactTitle,
         contactDescription:
           siteGlobal.contactDescription ||
           fallbackContent.site.contactDescription,
@@ -107,7 +130,7 @@ export async function getPortfolioContent(): Promise<PortfolioContent> {
         points: doc.points?.map((p) => p.point).filter(Boolean) || [],
         order: doc.order ?? 0,
       })),
-      navLinks: fallbackContent.navLinks,
+      navLinks,
     }
   } catch {
     return fallbackContent

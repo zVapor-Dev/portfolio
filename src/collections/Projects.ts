@@ -19,6 +19,17 @@ export const Projects: CollectionConfig = {
   },
   fields: [
     {
+      name: 'seedKey',
+      type: 'text',
+      required: true,
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Stable identifier used by the seed script for idempotent upserts.',
+      },
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,

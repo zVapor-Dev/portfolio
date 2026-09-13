@@ -23,6 +23,18 @@ export const fallbackContent: PortfolioContent = {
       { label: 'Deploy', value: 'Vercel, Cloudflare, Docker' },
       { label: 'Background', value: 'Discord bots & community tooling' },
     ],
+    experienceLabel: 'Experience',
+    experienceTitle: "Where I've built.",
+    experienceDescription:
+      'A mix of independent product work and long-running community projects — with Discord bot development as an earlier chapter that still informs how I think about reliability and scale.',
+    stackLabel: 'Stack',
+    stackTitle: 'Tools I reach for.',
+    stackDescription:
+      'A pragmatic toolkit for shipping typed, deployable web products — from UI components to auth, databases, and edge infrastructure.',
+    workLabel: 'Selected work',
+    workTitle: 'Projects that shipped.',
+    workDescription:
+      'A focused set of projects — open-source packages, this portfolio, and production Discord tooling. No filler, no work-in-progress badges.',
     contactLabel: 'Contact',
     contactTitle: "Let's talk.",
     contactDescription:

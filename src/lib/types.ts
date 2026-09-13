@@ -12,6 +12,15 @@ export type SiteContent = {
   aboutTitle: string
   aboutParagraphs: string[]
   highlights: { label: string; value: string }[]
+  experienceLabel: string
+  experienceTitle: string
+  experienceDescription: string
+  stackLabel: string
+  stackTitle: string
+  stackDescription: string
+  workLabel: string
+  workTitle: string
+  workDescription: string
   contactLabel: string
   contactTitle: string
   contactDescription: string

@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import VaporSceneCanvas from '@/components/canvas/VaporScene'
 import type { SiteContent } from '@/lib/types'
@@ -52,7 +51,6 @@ export default function Hero({ site }: Props) {
             className="mt-8 flex flex-wrap gap-4"
           >
             <a href="#contact" className="btn-primary">Get in touch</a>
-            <Link href="/admin" className="btn-ghost">Login</Link>
           </motion.div>
 
           <motion.div

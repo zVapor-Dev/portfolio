@@ -17,11 +17,45 @@ const dirname = path.dirname(filename)
 const connectionString =
   process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
 
+function getPayloadSecret(): string {
+  const secret = process.env.PAYLOAD_SECRET
+  if (secret) return secret
+
+  const vercelEnv = process.env.VERCEL_ENV
+  if (vercelEnv === 'production' || vercelEnv === 'preview') {
+    throw new Error(
+      'PAYLOAD_SECRET environment variable is required on Vercel. Generate one with: openssl rand -base64 48',
+    )
+  }
+
+  const isProductionRuntime =
+    process.env.NODE_ENV === 'production' &&
+    process.env.NEXT_PHASE !== 'phase-production-build'
+
+  if (isProductionRuntime) {
+    throw new Error(
+      'PAYLOAD_SECRET environment variable is required in production. Generate one with: openssl rand -base64 48',
+    )
+  }
+
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    // Local build-only placeholder — not used at runtime (production runtime throws above).
+    return '__LOCAL_BUILD_PLACEHOLDER_NOT_A_SECRET__'
+  }
+
+  throw new Error(
+    'PAYLOAD_SECRET environment variable is required. Add it to .env.local (generate with: openssl rand -base64 48)',
+  )
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      afterNavLinks: ['@/components/admin/ViewSiteLink'],
     },
     meta: {
       titleSuffix: '— zVapor CMS',
@@ -45,7 +79,7 @@ export default buildConfig({
   collections: [Users, Projects, Technologies, Experience],
   globals: [Site],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || 'build-time-secret-change-me',
+  secret: getPayloadSecret(),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
@@ -53,7 +87,9 @@ export default buildConfig({
     pool: {
       connectionString,
     },
-    push: process.env.NODE_ENV !== 'production',
+    // Schema changes ship via committed migrations (src/migrations). Push is dev-only.
+    push: process.env.NODE_ENV === 'development',
+    migrationDir: path.resolve(dirname, 'migrations'),
   }),
   sharp,
 })
