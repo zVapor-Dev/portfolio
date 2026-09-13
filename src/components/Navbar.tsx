@@ -51,12 +51,17 @@ export default function Navbar({ navLinks, site }: Props) {
           ))}
         </ul>
 
-        <a
-          href={`mailto:${site.email}`}
-          className="btn-ghost !py-2 !px-4 text-xs hidden md:inline-flex"
-        >
-          Get in touch
-        </a>
+        <div className="hidden items-center gap-3 md:flex">
+          <a
+            href={`mailto:${site.email}`}
+            className="btn-primary !py-2 !px-4 text-xs"
+          >
+            Get in touch
+          </a>
+          <Link href="/admin" className="btn-ghost !py-2 !px-4 text-xs">
+            Login
+          </Link>
+        </div>
 
         <button
           type="button"
@@ -88,6 +93,22 @@ export default function Navbar({ navLinks, site }: Props) {
                   </a>
                 </li>
               ))}
+              <li className="flex flex-col gap-3 pt-2">
+                <a
+                  href={`mailto:${site.email}`}
+                  className="btn-primary w-full text-center"
+                  onClick={() => setToggle(false)}
+                >
+                  Get in touch
+                </a>
+                <Link
+                  href="/admin"
+                  className="btn-ghost w-full text-center"
+                  onClick={() => setToggle(false)}
+                >
+                  Login
+                </Link>
+              </li>
             </ul>
           </motion.div>
         )}
