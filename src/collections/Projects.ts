@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { validateAllowedUrl } from '@/lib/validateUrl'
+
 export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
@@ -15,7 +17,10 @@ export const Projects: CollectionConfig = {
     },
   },
   access: {
-    read: () => true,
+    read: ({ req: { user } }) => {
+      if (user) return true
+      return { published: { equals: true } }
+    },
   },
   fields: [
     {
@@ -49,7 +54,12 @@ export const Projects: CollectionConfig = {
       type: 'array',
       fields: [
         { name: 'label', type: 'text', required: true },
-        { name: 'url', type: 'text', required: true },
+        {
+          name: 'url',
+          type: 'text',
+          required: true,
+          validate: validateAllowedUrl,
+        },
       ],
     },
     {
@@ -57,6 +67,7 @@ export const Projects: CollectionConfig = {
       type: 'text',
       label: 'Image URL',
       required: true,
+      validate: validateAllowedUrl,
     },
     {
       name: 'order',

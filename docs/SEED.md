@@ -21,7 +21,13 @@ npm run migrate
 npm run seed
 ```
 
-`npm run seed` runs `src/seed/run.ts`, which upserts content by stable `seedKey` values. Re-running seed is safe: existing rows are updated, stale rows are removed, and document IDs are preserved when possible.
+`npm run seed` runs `src/seed/run.ts`, which upserts content by stable `seedKey` values. Re-running seed is safe for **seeded** rows: existing matches are updated and document IDs are preserved when possible.
+
+> **⚠️ DESTRUCTIVE WIPE — read before seeding production**
+>
+> The seed sync **deletes every document** in **Projects**, **Technologies**, and **Experience** whose `seedKey` is **not** present in `src/seed/data.ts`. Custom CMS entries you added manually (or rows missing a `seedKey`) are **permanently removed** on the next seed run.
+>
+> Back up or export anything you need before `npm run seed` or `POST /next/seed` on a live database.
 
 ## Production (Neon)
 
