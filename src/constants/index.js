@@ -1,193 +1,103 @@
-import {
-  mobile,
-  backend,
-  creator,
-  web,
-  javascript,
-  typescript,
-  html,
-  css,
-  reactjs,
-  redux,
-  tailwind,
-  nodejs,
-  mongodb,
-  git,
-  figma,
-  docker,
-  meta,
-  starbucks,
-  tesla,
-  shopify,
-  carrent,
-  jobit,
-  tripguide,
-  threejs,
-  discord,
-} from "../assets";
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { discord } from "../assets";
+
+export const site = {
+  name: "Daan Vrieling",
+  handle: "zVapor_",
+  title: "Full-Stack Product Engineer",
+  location: "Netherlands",
+  email: "contact@zvapor.xyz",
+  website: "https://www.zvapor.xyz",
+  github: "https://github.com/zVapor-Dev",
+  twitter: "https://twitter.com/zvapor_",
+};
 
 export const navLinks = [
-  {
-    id: "about",
-    title: "About",
-  },
-  {
-    id: "work",
-    title: "Work",
-  },
-  {
-    id: "contact",
-    title: "Contact",
-  },
+  { id: "about", title: "About" },
+  { id: "experience", title: "Experience" },
+  { id: "stack", title: "Stack" },
+  { id: "work", title: "Work" },
+  { id: "contact", title: "Contact" },
 ];
 
-const services = [
-  {
-    title: "Discord Bot Developer",
-    icon: mobile,
-  },
-  {
-    title: "Content Creator",
-    icon: creator,
-  },
+export const technologies = [
+  { name: "TypeScript", category: "language" },
+  { name: "React", category: "frontend" },
+  { name: "Node.js", category: "backend" },
+  { name: "Prisma", category: "backend" },
+  { name: "Tailwind CSS", category: "frontend" },
+  { name: "shadcn/ui", category: "frontend" },
+  { name: "Vercel", category: "platform" },
+  { name: "Clerk", category: "platform" },
+  { name: "Cloudflare", category: "platform" },
+  { name: "MongoDB", category: "database" },
+  { name: "Three.js", category: "frontend" },
+  { name: "Docker", category: "platform" },
 ];
 
-const technologies = [
-  {
-    name: "HTML 5",
-    icon: html,
-  },
-  {
-    name: "CSS 3",
-    icon: css,
-  },
-  {
-    name: "JavaScript",
-    icon: javascript,
-  },
-  {
-    name: "TypeScript",
-    icon: typescript,
-  },
-  {
-    name: "React JS",
-    icon: reactjs,
-  },
-  {
-    name: "Tailwind CSS",
-    icon: tailwind,
-  },
-  {
-    name: "Node JS",
-    icon: nodejs,
-  },
-  {
-    name: "MongoDB",
-    icon: mongodb,
-  },
-  {
-    name: "Three JS",
-    icon: threejs,
-  },
-  {
-    name: "git",
-    icon: git,
-  },
-  {
-    name: "docker",
-    icon: docker,
-  },
-];
-
-const experiences = [
+export const experiences = [
   {
     title: "Bot Developer",
-    company_name: "Discord",
+    company: "Discord Ecosystem",
+    date: "Q1 2019 — Present",
     icon: discord,
-    iconBg: "#383E56",
-    date: "Q1 2019 - Present",
+    iconBg: "#5865F2",
     points: [
-      "Developing and maintaining discord bots using discord.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive & readable code.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Built and maintained production Discord bots serving thousands of guilds, using discord.js and MongoDB.",
+      "Shipped Commapor — a published npm package for discord.js v14 command handling with database integration.",
+      "Designed modular architectures for multi-purpose bots with moderation, automation, and custom integrations.",
+      "Collaborated with server owners and communities to scope features, iterate on feedback, and keep bots reliable at scale.",
     ],
   },
 ];
 
-const testimonials = [
+export const projects = [
   {
-    testimonial:
-      "Vapor is a great addition to the team, I can trust that the work he produces is done to a high standard. Customer Service is on point!",
-    name: "NP",
-    designation: "CEO",
-    company: "Resolv",
-    image:
-      "https://cdn.discordapp.com/avatars/887296580955283537/a_835f4f17d8dc5028aaf4662e2c9f2dc9.webp?size=80",
-  },
-  {
-    testimonial:
-      "I try to work hard to achieve the best work possible. I put my heart and soul into my work.",
-    name: "Vapor",
-    designation: "CEO",
-    company: "Vapor Development",
-    image:
-      "https://cdn.discordapp.com/avatars/501700626690998280/a_cbb7036dc635697ffeb9520970dd8f27.gif?size=80",
-  },
-  {
-    testimonial:
-      "You're efficient and hard working, you literally don't give up until its done. You're the most stubborn person I've met when it comes to getting the job done.",
-    name: "Vampy",
-    designation: "Developer",
-    company: "Resolv",
-    image:
-      "https://cdn.discordapp.com/avatars/330528293843632130/ec22be68549dbfdc4d3fa22619d2a778.webp?size=80",
-  },
-];
-
-const projects = [
-  {
-    name: "Doubt Bot",
+    name: "Commapor",
     description:
-      "An advanced multi-purpose discord bot designed to make your discord server run more smoothly!",
-    tags: [
+      "Published npm package (@zvapor-dev/commapor) — a discord.js v14 command handler with MongoDB integration. Modular, type-safe, and built for production bot architectures.",
+    tags: ["TypeScript", "discord.js", "MongoDB", "npm"],
+    image:
+      "https://opengraph.githubassets.com/1/zVapor-Dev/Commapor",
+    links: [
       {
-        name: "discord.js",
-        color: "blue-text-gradient",
+        label: "GitHub",
+        url: "https://github.com/zVapor-Dev/Commapor",
       },
       {
-        name: "mongodb",
-        color: "green-text-gradient",
+        label: "npm",
+        url: "https://www.npmjs.com/package/@zvapor-dev/commapor",
       },
     ],
-    image:
-      "https://cdn.discordapp.com/icons/833675115408523264/845331e69b03351e3c40bd48938bd469.webp?size=128",
-    source_code_link: "https://github.com/zVapor-Dev/Doubt-Discord-Bot",
-    invite_link: "https://top.gg/bot/941052587837378570/invite",
   },
   {
     name: "Portfolio",
     description:
-      "The portfolio you are currently viewing, built using React, Tailwind CSS and Three.js.",
-    tags: [
+      "This site — a Vite + React portfolio with a dark vapor aesthetic, motion accents, and a focus on product engineering over template filler.",
+    tags: ["React", "Vite", "Three.js", "Tailwind CSS"],
+    image: "https://i.imgur.com/9ZKpiWf.png",
+    links: [
       {
-        name: "react",
-        color: "blue-text-gradient",
+        label: "GitHub",
+        url: "https://github.com/zVapor-Dev/portfolio",
       },
       {
-        name: "tailwind.css",
-        color: "green-text-gradient",
-      },
-      {
-        name: "three.js",
-        color: "pink-text-gradient",
+        label: "Live",
+        url: "https://www.zvapor.xyz",
       },
     ],
-    image: "https://i.imgur.com/9ZKpiWf.png",
-    source_code_link: "https://github.com/zVapor-Dev/portfolio",
-    invite_link: "https://www.zvapor.xyz",
+  },
+  {
+    name: "Doubt Bot",
+    description:
+      "Advanced multi-purpose Discord bot — moderation, automation, and server management tools designed to keep communities running smoothly.",
+    tags: ["discord.js", "Node.js", "MongoDB"],
+    image:
+      "https://cdn.discordapp.com/icons/833675115408523264/845331e69b03351e3c40bd48938bd469.webp?size=256",
+    links: [
+      {
+        label: "Invite",
+        url: "https://top.gg/bot/941052587837378570/invite",
+      },
+    ],
   },
 ];
-
-export { services, technologies, experiences, testimonials, projects };

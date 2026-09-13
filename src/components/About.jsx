@@ -1,64 +1,82 @@
-import React from "react";
-import tilt from "react-tilt";
 import { motion } from "framer-motion";
-import { styles } from "../styles";
-import { services } from "../constants";
-import { fadeIn, textVariant } from "../utils/motion";
-import Tilt from "react-tilt";
 import { SectionWrapper } from "../hoc";
+import { site } from "../constants";
+import { fadeIn, textVariant } from "../utils/motion";
 
-const ServiceCard = ({ index, title, icon }) => (
-  <Tilt className="xs:w-[250px] w-full">
-    <motion.div
-      variants={fadeIn("right", "spring", index * 0.5, 0.75)}
-      className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
-    >
-      <div
-        options={{
-          max: 45,
-          scale: 1,
-          speed: 450,
-        }}
-        className="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col"
-      >
-        <img
-          src={icon}
-          alt="web-development"
-          className="w-16 h-16 object-contain"
-        />
-
-        <h3 className="text-white text-[20px] font-bold text-center">
-          {title}
-        </h3>
-      </div>
-    </motion.div>
-  </Tilt>
-);
+const highlights = [
+  {
+    label: "Focus",
+    value: "Full-stack web & product engineering",
+  },
+  {
+    label: "Stack",
+    value: "TypeScript, React, Node, Prisma",
+  },
+  {
+    label: "Deploy",
+    value: "Vercel, Cloudflare, Docker",
+  },
+  {
+    label: "Background",
+    value: "Discord bots & community tooling",
+  },
+];
 
 const About = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={styles.sectionSubText}>Introduction</p>
-        <h2 className={styles.sectionHeadText}>Overview.</h2>
+        <p className="section-label">About</p>
+        <h2 className="section-title mt-3">
+          Product engineer,{" "}
+          <span className="text-vapor-muted">not just a template.</span>
+        </h2>
       </motion.div>
 
-      <motion.p
-        variants={fadeIn("", "", 0.1, 1)}
-        className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
-      >
-        I'm a <span className="text-[#915EFF]">NodeJS Developer</span> and I
-        have been coding discord bots for about 4 years now and have recently
-        dived into web development. I have a passion for learning new things and
-        I am always looking for new opportunities to learn and grow. I have also
-        recently started doing minecraft Java plugins and React-Native mobile
-        apps.
-      </motion.p>
+      <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_1fr]">
+        <motion.div
+          variants={fadeIn("right", "spring", 0.2, 0.8)}
+          className="space-y-5 text-base leading-relaxed text-vapor-muted"
+        >
+          <p>
+            I'm <span className="text-white">{site.name}</span> (
+            <span className="font-mono text-vapor-cyan">{site.handle}</span>
+            ) — a {site.title.toLowerCase()} based in the {site.location}. I
+            build web products end to end: typed APIs, polished interfaces, and
+            deployments that stay maintainable as features grow.
+          </p>
+          <p>
+            My work spans modern React frontends, Node backends with Prisma,
+            auth with Clerk, and infrastructure on Vercel and Cloudflare. I care
+            about clear architecture, accessible UI, and shipping things people
+            actually use.
+          </p>
+          <p>
+            Before focusing on web, I spent years building Discord bots and
+            community tools — including published open-source packages and bots
+            serving thousands of servers. That background taught me how to ship
+            reliable software under real user pressure.
+          </p>
+        </motion.div>
 
-      <div className='mt-20 flex flex-wrap gap-10'>
-        {services.map((service, index) => (
-          <ServiceCard key={service.title} index={index} {...service} />
-        ))}
+        <motion.div
+          variants={fadeIn("left", "spring", 0.3, 0.8)}
+          className="grid gap-3 sm:grid-cols-2"
+        >
+          {highlights.map((item, index) => (
+            <div
+              key={item.label}
+              className="vapor-card vapor-card-hover p-5"
+            >
+              <p className="font-mono text-xs uppercase tracking-wider text-vapor-cyan">
+                {item.label}
+              </p>
+              <p className="mt-2 text-sm font-medium leading-snug text-white">
+                {item.value}
+              </p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </>
   );

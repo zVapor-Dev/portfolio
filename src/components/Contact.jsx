@@ -2,30 +2,25 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
-import { styles } from "../styles";
-import { EarthCanvas } from "./canvas";
 import { SectionWrapper } from "../hoc";
-import { slideIn } from "../utils/motion";
+import { site } from "../constants";
+import { fadeIn, textVariant } from "../utils/motion";
 
 const Contact = () => {
   const formRef = useRef();
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const handleChange = (e) => {
-    const { target } = e;
-    const { name, value } = target;
-
-    setForm({ ...form, [name]: value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    setStatus(null);
 
     emailjs
       .send(
@@ -33,98 +28,132 @@ const Contact = () => {
         "template_xstw39o",
         {
           from_name: form.name,
-          to_name: "Vapor",
+          to_name: "Daan",
           from_email: form.email,
-          to_email: "contact@zvapor.xyz",
+          to_email: site.email,
           message: form.message,
         },
         "whEzBLs4InYBGH2Kw"
       )
-      .then(
-        () => {
-          setLoading(false);
-          alert(
-            "Thank you for you message! I will get back to you as soon as possible"
-          );
-
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error) => {
-          alert(
-            "Something went wrong while sending your message. Please try again later"
-          );
-        }
-      );
+      .then(() => {
+        setLoading(false);
+        setStatus("success");
+        setForm({ name: "", email: "", message: "" });
+      })
+      .catch(() => {
+        setLoading(false);
+        setStatus("error");
+      });
   };
 
   return (
-    <div
-      className={`xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden`}
-    >
-      <motion.div
-        variants={slideIn("left", "tween", 0.2, 1)}
-        className="flex-[0.75] bg-black-100 p-8 rounded-2xl"
-      >
-        <p className={styles.sectionSubText}>Get in touch</p>
-        <h3 className={styles.sectionHeadText}>Contact.</h3>
+    <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
+      <motion.div variants={fadeIn("right", "spring", 0.2, 0.8)}>
+        <p className="section-label">Contact</p>
+        <h2 className="section-title mt-3">Let's talk.</h2>
+        <p className="mt-4 max-w-md text-base leading-relaxed text-vapor-muted">
+          Open to collaborations, freelance work, and interesting product ideas.
+          Drop a message or reach out directly.
+        </p>
 
+        <div className="mt-8 space-y-4">
+          <a
+            href={`mailto:${site.email}`}
+            className="flex items-center gap-3 text-sm text-vapor-muted transition-colors hover:text-vapor-cyan"
+          >
+            <span className="font-mono text-xs text-vapor-cyan">email</span>
+            {site.email}
+          </a>
+          <a
+            href={site.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 text-sm text-vapor-muted transition-colors hover:text-vapor-cyan"
+          >
+            <span className="font-mono text-xs text-vapor-cyan">github</span>
+            zVapor-Dev
+          </a>
+          <a
+            href={site.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 text-sm text-vapor-muted transition-colors hover:text-vapor-cyan"
+          >
+            <span className="font-mono text-xs text-vapor-cyan">twitter</span>
+            @zvapor_
+          </a>
+        </div>
+      </motion.div>
+
+      <motion.div variants={fadeIn("left", "spring", 0.3, 0.8)}>
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="mt-12 flex flex-col gap-8"
+          className="vapor-card space-y-5 p-6 sm:p-8"
         >
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Name</span>
+          <div>
+            <label htmlFor="name" className="mb-2 block text-sm font-medium text-white">
+              Name
+            </label>
             <input
+              id="name"
               type="text"
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="What's your good name?"
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
+              required
+              placeholder="Your name"
+              className="input-field"
             />
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your email</span>
+          </div>
+
+          <div>
+            <label htmlFor="email" className="mb-2 block text-sm font-medium text-white">
+              Email
+            </label>
             <input
+              id="email"
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="What's your web address?"
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
+              required
+              placeholder="you@example.com"
+              className="input-field"
             />
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Message</span>
+          </div>
+
+          <div>
+            <label htmlFor="message" className="mb-2 block text-sm font-medium text-white">
+              Message
+            </label>
             <textarea
-              rows={7}
+              id="message"
               name="message"
+              rows={5}
               value={form.message}
               onChange={handleChange}
-              placeholder="What you want to say?"
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
+              required
+              placeholder="What's on your mind?"
+              className="input-field resize-none"
             />
-          </label>
+          </div>
 
-          <button
-            type="submit"
-            className="bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary"
-          >
-            {loading ? "Sending..." : "Send"}
+          {status === "success" && (
+            <p className="text-sm text-emerald-400" role="status">
+              Message sent — I'll get back to you soon.
+            </p>
+          )}
+          {status === "error" && (
+            <p className="text-sm text-red-400" role="alert">
+              Something went wrong. Please try again or email me directly.
+            </p>
+          )}
+
+          <button type="submit" className="btn-primary w-full sm:w-auto" disabled={loading}>
+            {loading ? "Sending…" : "Send message"}
           </button>
         </form>
-      </motion.div>
-
-      <motion.div
-        variants={slideIn("right", "tween", 0.2, 1)}
-        className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
-      >
-        <EarthCanvas />
       </motion.div>
     </div>
   );

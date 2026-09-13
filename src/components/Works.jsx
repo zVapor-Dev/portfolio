@@ -1,111 +1,93 @@
-import React from "react";
-import Tilt from "react-tilt";
 import { motion } from "framer-motion";
-
-import { styles } from "../styles";
-import { discord, github } from "../assets";
 import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
 
-const ProjectCard = ({
-  index,
-  name,
-  description,
-  tags,
-  image,
-  source_code_link,
-  invite_link,
-}) => {
-  return (
-    <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
-      <Tilt
-        options={{
-          max: 45,
-          scale: 1,
-          speed: 450,
-        }}
-        className='bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full'
-      >
-        <div className='relative w-full h-[230px]'>
-          <img
-            src={image}
-            alt='project_image'
-            className='w-full h-full object-cover rounded-2xl'
-          />
+const ProjectCard = ({ project, index }) => (
+  <motion.article
+    variants={fadeIn("up", "spring", index * 0.12, 0.8)}
+    className="group vapor-card vapor-card-hover flex flex-col overflow-hidden"
+  >
+    <div className="relative aspect-[16/10] overflow-hidden border-b border-white/[0.06]">
+      <img
+        src={project.image}
+        alt={project.name}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-vapor-bg/80 via-transparent to-transparent" />
+    </div>
 
-          <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
-            <div
-              onClick={() => window.open(source_code_link, "_blank")}
-              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
+    <div className="flex flex-1 flex-col p-6">
+      <h3 className="font-display text-xl font-semibold text-white">
+        {project.name}
+      </h3>
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-vapor-muted">
+        {project.description}
+      </p>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <span key={tag} className="tag">{tag}</span>
+        ))}
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-3 border-t border-white/[0.06] pt-5">
+        {project.links.map((link) => (
+          <a
+            key={link.label}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-vapor-cyan transition-colors hover:text-white"
+          >
+            {link.label}
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              className="opacity-70"
+              aria-hidden="true"
             >
-              <img
-                src={github}
-                alt='source code'
-                className='w-1/2 h-1/2 object-contain'
+              <path
+                d="M3 11L11 3M11 3H5M11 3V9"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
-            </div>
-            <div
-              onClick={() => window.open(invite_link, "_blank")}
-              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
-            >
-              <img
-                src={discord}
-                alt='source code'
-                className='w-1/2 h-1/2 object-contain'
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className='mt-5'>
-          <h3 className='text-white font-bold text-[24px]'>{name}</h3>
-          <p className='mt-2 text-secondary text-[14px]'>{description}</p>
-        </div>
-
-        <div className='mt-4 flex flex-wrap gap-2'>
-          {tags.map((tag) => (
-            <p
-              key={`${name}-${tag.name}`}
-              className={`text-[14px] ${tag.color}`}
-            >
-              #{tag.name}
-            </p>
-          ))}
-        </div>
-      </Tilt>
-    </motion.div>
-  );
-};
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </motion.article>
+);
 
 const Works = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} `}>My work</p>
-        <h2 className={`${styles.sectionHeadText}`}>Projects.</h2>
+        <p className="section-label">Selected work</p>
+        <h2 className="section-title mt-3">Projects that shipped.</h2>
       </motion.div>
 
-      <div className='w-full flex'>
-        <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
-          className='mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]'
-        >
-          Following projects showcases my skills and experience through
-          real-world examples of my work. Each project is briefly described with
-          links to code repositories and live demos in it. It reflects my
-          ability to solve complex problems, work with different technologies,
-          and manage projects effectively.
-        </motion.p>
-      </div>
+      <motion.p
+        variants={fadeIn("", "", 0.15, 0.8)}
+        className="mt-4 max-w-2xl text-base text-vapor-muted"
+      >
+        A focused set of projects — open-source packages, this portfolio, and
+        production Discord tooling. No filler, no work-in-progress badges.
+      </motion.p>
 
-      <div className='mt-20 flex flex-wrap gap-7'>
+      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((project, index) => (
-          <ProjectCard key={`project-${index}`} index={index} {...project} />
+          <ProjectCard key={project.name} project={project} index={index} />
         ))}
       </div>
     </>
   );
 };
 
-export default SectionWrapper(Works, "");
+export default SectionWrapper(Works, "work");

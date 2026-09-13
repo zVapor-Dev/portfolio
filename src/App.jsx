@@ -4,7 +4,6 @@ import {
   About,
   Contact,
   Experience,
-  Feedbacks,
   Hero,
   Navbar,
   Tech,
@@ -15,19 +14,25 @@ import {
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="relative z-0 bg-primary">
-        <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
+      <div className="relative z-0 min-h-screen bg-vapor-bg">
+        <div className="pointer-events-none fixed inset-0 z-0">
+          <StarsCanvas />
+        </div>
+
+        <div className="relative z-10">
           <Navbar />
           <Hero />
-        </div>
-        <About />
-        <Experience />
-        <Tech />
-        <Works />
-        <Feedbacks />
-        <div className="relative z-0">
+          <About />
+          <Experience />
+          <Tech />
+          <Works />
           <Contact />
-          <StarsCanvas />
+
+          <footer className="border-t border-white/[0.06] px-5 py-8 text-center sm:px-8 lg:px-12">
+            <p className="font-mono text-xs text-vapor-muted">
+              © {new Date().getFullYear()} Daan Vrieling · zVapor_
+            </p>
+          </footer>
         </div>
       </div>
     </BrowserRouter>
