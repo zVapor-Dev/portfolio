@@ -56,21 +56,27 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
    - Site: http://localhost:3000  
    - Admin: http://localhost:3000/admin
 
-4. **Create an admin user**
-
-   On first visit to `/admin`, Payload prompts you to create the initial user account. This account is required before seeding or editing content.
-
-5. **Seed demo content** (optional)
-
-   After the admin user exists:
+4. **Apply database migrations** (first run and after schema changes)
 
    ```bash
+   npm run migrate
+   ```
+
+5. **Create an admin user**
+
+   On first visit to `/admin`, Payload prompts you to create the initial user account. Required for editing content in the CMS.
+
+6. **Seed demo content** (optional)
+
+   ```bash
+   npm run migrate   # if not already applied
    npm run seed
    ```
 
-   This populates the `site` global and the `projects`, `technologies`, and `experience` collections. It clears and replaces existing documents in those collections.
+   See **[docs/SEED.md](./docs/SEED.md)** for local, CI, and production seeding steps (including authenticated `POST /next/seed`).
 
-   Authenticated admins can also seed via `POST /next/seed` while logged in.
+   > **Warning — seed can delete CMS-only content.**  
+   > `npm run seed` upserts the `site` global and syncs `projects`, `technologies`, and `experience` from `src/seed/data.ts`. Rows in those collections that are **not** represented in the seed file (no matching `seedKey`) are **removed**. Content you added only in the admin panel may be lost. Do not run seed against production unless you intend to reset featured content to the repo defaults.
 
 ## CMS content model
 
@@ -84,7 +90,7 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 
 Live preview is enabled for the collections and `site` global. Preview URLs use `NEXT_PUBLIC_SERVER_URL` and require `PREVIEW_SECRET`.
 
-The navbar **Login** button and hero CTA link to `/admin`.
+The navbar **Login** button links to `/admin` (desktop and mobile menu).
 
 ## Contact form (SMTP)
 
@@ -111,15 +117,17 @@ The contact form submits to `POST /api/contact`. Outbound mail is sent with Node
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start Next.js dev server |
-| `npm run build` | Generate Payload types and production build |
+| `npm run build` | Run `payload migrate`, generate types, then `next build` |
+| `npm run migrate` | Apply Payload database migrations |
+| `npm run migrate:status` | Show migration status |
 | `npm run start` | Run production server |
-| `npm run seed` | Seed CMS content (requires database + admin user) |
+| `npm run seed` | Upsert CMS content from `src/seed/data.ts` (see [docs/SEED.md](./docs/SEED.md)) |
 | `npm run generate:types` | Regenerate `src/payload-types.ts` |
 | `npm run lint` | Run Next.js ESLint |
 
 ## Deployment
 
-The site is deployed on Vercel (`vercel.json` uses `npm ci` and `npm run build`). Ensure all required environment variables from `.env.example` are set in the Vercel project. Set `NEXT_PUBLIC_SERVER_URL` to `https://www.zvapor.xyz` in production.
+The site is deployed on Vercel (`vercel.json` uses `npm ci` and `npm run build`). Production builds run **`payload migrate`** before `next build`, so `DATABASE_URL` and `PAYLOAD_SECRET` must be set in the Vercel project. Set `NEXT_PUBLIC_SERVER_URL` to `https://www.zvapor.xyz` in production.
 
 ## Changelog
 
