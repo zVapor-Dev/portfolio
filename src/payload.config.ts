@@ -54,6 +54,9 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      afterNavLinks: ['@/components/admin/ViewSiteLink'],
+    },
     meta: {
       titleSuffix: '— zVapor CMS',
     },

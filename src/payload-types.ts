@@ -145,6 +145,10 @@ export interface User {
  */
 export interface Project {
   id: number;
+  /**
+   * Stable identifier used by the seed script for idempotent upserts.
+   */
+  seedKey: string;
   title: string;
   description: string;
   tags?:
@@ -172,6 +176,10 @@ export interface Project {
  */
 export interface Technology {
   id: number;
+  /**
+   * Stable identifier used by the seed script for idempotent upserts.
+   */
+  seedKey: string;
   name: string;
   category: 'language' | 'frontend' | 'backend' | 'database' | 'platform';
   order?: number | null;
@@ -184,6 +192,10 @@ export interface Technology {
  */
 export interface Experience {
   id: number;
+  /**
+   * Stable identifier used by the seed script for idempotent upserts.
+   */
+  seedKey: string;
   title: string;
   company: string;
   date: string;
@@ -285,6 +297,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  seedKey?: T;
   title?: T;
   description?: T;
   tags?:
@@ -311,6 +324,7 @@ export interface ProjectsSelect<T extends boolean = true> {
  * via the `definition` "technologies_select".
  */
 export interface TechnologiesSelect<T extends boolean = true> {
+  seedKey?: T;
   name?: T;
   category?: T;
   order?: T;
@@ -322,6 +336,7 @@ export interface TechnologiesSelect<T extends boolean = true> {
  * via the `definition` "experience_select".
  */
 export interface ExperienceSelect<T extends boolean = true> {
+  seedKey?: T;
   title?: T;
   company?: T;
   date?: T;
@@ -397,9 +412,25 @@ export interface Site {
         id?: string | null;
       }[]
     | null;
+  experienceLabel?: string | null;
+  experienceTitle?: string | null;
+  experienceDescription?: string | null;
+  stackLabel?: string | null;
+  stackTitle?: string | null;
+  stackDescription?: string | null;
+  workLabel?: string | null;
+  workTitle?: string | null;
+  workDescription?: string | null;
   contactLabel?: string | null;
   contactTitle?: string | null;
   contactDescription?: string | null;
+  navLinks?:
+    | {
+        anchor: string;
+        title: string;
+        id?: string | null;
+      }[]
+    | null;
   email: string;
   website?: string | null;
   github?: string | null;
@@ -434,9 +465,25 @@ export interface SiteSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  experienceLabel?: T;
+  experienceTitle?: T;
+  experienceDescription?: T;
+  stackLabel?: T;
+  stackTitle?: T;
+  stackDescription?: T;
+  workLabel?: T;
+  workTitle?: T;
+  workDescription?: T;
   contactLabel?: T;
   contactTitle?: T;
   contactDescription?: T;
+  navLinks?:
+    | T
+    | {
+        anchor?: T;
+        title?: T;
+        id?: T;
+      };
   email?: T;
   website?: T;
   github?: T;
