@@ -4,18 +4,20 @@ import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { NextRequest } from 'next/server'
 
-import { isSafeRedirectPath } from '@/lib/safeRedirect'
+import { getSafeRedirectPath } from '@/lib/safeRedirect'
 
 import config from '@payload-config'
 
 export async function GET(req: NextRequest): Promise<Response> {
   const payload = await getPayload({ config })
-  const { searchParams } = new URL(req.url)
+  const requestUrl = new URL(req.url)
+  const { searchParams, origin } = requestUrl
 
-  const path = searchParams.get('path') || '/'
+  const rawPath = searchParams.get('path') || '/'
   const previewSecret = searchParams.get('previewSecret')
+  const safePath = getSafeRedirectPath(rawPath, origin)
 
-  if (!isSafeRedirectPath(path)) {
+  if (!safePath) {
     return new Response('Invalid preview path', { status: 400 })
   }
 
@@ -42,5 +44,5 @@ export async function GET(req: NextRequest): Promise<Response> {
   }
 
   draft.enable()
-  redirect(path)
+  redirect(safePath)
 }

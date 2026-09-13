@@ -1,49 +1,125 @@
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
+
 /**
- * In-memory, per-IP rate limiter for serverless handlers.
+ * Contact form rate limiting.
  *
- * Caveats on Vercel/serverless:
- * - Each warm instance keeps its own map; limits are approximate across instances.
- * - Cold starts reset counters for that instance.
- * - Suitable as a lightweight abuse brake, not a strict global quota.
- * For stronger guarantees, use a shared store (e.g. Upstash Redis).
+ * When UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN are set, uses
+ * @upstash/ratelimit with a sliding window (accurate across Vercel instances).
+ *
+ * Otherwise falls back to an in-memory sliding window per warm serverless
+ * instance (approximate; documented limitation).
  */
 
-type RateLimitEntry = {
-  count: number
+export type RateLimitResult = {
+  allowed: boolean
+  limit: number
+  remaining: number
   resetAt: number
 }
 
-const buckets = new Map<string, RateLimitEntry>()
+const DEFAULT_MAX = Number(process.env.CONTACT_RATE_LIMIT_MAX ?? 5)
+const DEFAULT_WINDOW_MS = Number(
+  process.env.CONTACT_RATE_LIMIT_WINDOW_MS ?? 60 * 60 * 1000,
+)
 
-export type RateLimitResult =
-  | { allowed: true; remaining: number; resetAt: number }
-  | { allowed: false; remaining: 0; resetAt: number }
+let upstashRatelimit: Ratelimit | null | undefined
 
-export function checkRateLimit(
-  key: string,
-  options?: { max?: number; windowMs?: number },
-): RateLimitResult {
-  const max = options?.max ?? Number(process.env.CONTACT_RATE_LIMIT_MAX ?? 5)
-  const windowMs =
-    options?.windowMs ??
-    Number(process.env.CONTACT_RATE_LIMIT_WINDOW_MS ?? 15 * 60 * 1000)
+function getUpstashRatelimit(): Ratelimit | null {
+  if (upstashRatelimit !== undefined) return upstashRatelimit
 
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    upstashRatelimit = null
+    return null
+  }
+
+  const windowSec = Math.max(1, Math.round(DEFAULT_WINDOW_MS / 1000))
+
+  upstashRatelimit = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(DEFAULT_MAX, `${windowSec} s`),
+    prefix: 'portfolio-contact',
+    analytics: false,
+  })
+
+  return upstashRatelimit
+}
+
+const slidingBuckets = new Map<string, number[]>()
+
+function checkInMemorySlidingWindow(key: string): RateLimitResult {
+  const max = DEFAULT_MAX
+  const windowMs = DEFAULT_WINDOW_MS
   const now = Date.now()
-  const existing = buckets.get(key)
+  const windowStart = now - windowMs
 
-  if (!existing || now >= existing.resetAt) {
-    const resetAt = now + windowMs
-    buckets.set(key, { count: 1, resetAt })
-    return { allowed: true, remaining: max - 1, resetAt }
+  const timestamps = (slidingBuckets.get(key) ?? []).filter((t) => t > windowStart)
+
+  if (timestamps.length >= max) {
+    const resetAt = timestamps[0]! + windowMs
+    return { allowed: false, limit: max, remaining: 0, resetAt }
   }
 
-  if (existing.count >= max) {
-    return { allowed: false, remaining: 0, resetAt: existing.resetAt }
+  timestamps.push(now)
+  slidingBuckets.set(key, timestamps)
+
+  return {
+    allowed: true,
+    limit: max,
+    remaining: max - timestamps.length,
+    resetAt: now + windowMs,
+  }
+}
+
+async function checkSingleKey(key: string): Promise<RateLimitResult> {
+  const upstash = getUpstashRatelimit()
+
+  if (upstash) {
+    const result = await upstash.limit(key)
+    return {
+      allowed: result.success,
+      limit: result.limit,
+      remaining: result.remaining,
+      resetAt: result.reset,
+    }
   }
 
-  existing.count += 1
-  buckets.set(key, existing)
-  return { allowed: true, remaining: max - existing.count, resetAt: existing.resetAt }
+  return checkInMemorySlidingWindow(key)
+}
+
+/** All keys must pass (e.g. per-IP and per-email). */
+export async function checkContactRateLimit(
+  keys: string[],
+): Promise<RateLimitResult> {
+  let strictest: RateLimitResult | null = null
+
+  for (const key of keys) {
+    const result = await checkSingleKey(key)
+
+    if (!result.allowed) {
+      return result
+    }
+
+    if (
+      !strictest ||
+      result.remaining < strictest.remaining ||
+      result.resetAt > strictest.resetAt
+    ) {
+      strictest = result
+    }
+  }
+
+  return (
+    strictest ?? {
+      allowed: true,
+      limit: DEFAULT_MAX,
+      remaining: DEFAULT_MAX,
+      resetAt: Date.now() + DEFAULT_WINDOW_MS,
+    }
+  )
 }
 
 export function getClientIp(req: Request): string {
@@ -53,4 +129,22 @@ export function getClientIp(req: Request): string {
   }
 
   return req.headers.get('x-real-ip') || 'unknown'
+}
+
+export function rateLimitResponseHeaders(
+  result: RateLimitResult,
+): Record<string, string> {
+  const headers: Record<string, string> = {
+    'X-RateLimit-Limit': String(result.limit),
+    'X-RateLimit-Remaining': String(result.remaining),
+    'X-RateLimit-Reset': String(Math.ceil(result.resetAt / 1000)),
+  }
+
+  if (!result.allowed) {
+    headers['Retry-After'] = String(
+      Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1000)),
+    )
+  }
+
+  return headers
 }
