@@ -90,11 +90,11 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 | Collection | `experience` | Work history entries |
 | Collection | `users` | Admin accounts (Payload auth) |
 
-Live preview is enabled for the collections and `site` global. Preview URLs use `NEXT_PUBLIC_SERVER_URL` and require `PREVIEW_SECRET`. Preview `path` values are allowlisted (site-relative paths only) to prevent open redirects.
+Live preview is enabled for the collections and `site` global. Preview URLs use `NEXT_PUBLIC_SERVER_URL` and require `PREVIEW_SECRET`. Preview `path` values are allowlisted to strict same-site paths such as `/` or `/work`; query strings, hashes, percent-encoding, backslashes, protocol-relative URLs, and absolute schemes are rejected to prevent open redirects.
 
 The navbar **Login** button links to `/admin` (desktop and mobile menu).
 
-Anonymous REST reads of `projects` only return **published** entries; authenticated admins still see drafts.
+Anonymous REST reads of `projects` only return **published** entries; authenticated admins still see drafts. Project link and image URL fields accept `http(s)` URLs or site-relative `/` paths and reject protocol-relative URLs/control characters.
 
 ## Contact form (SMTP)
 
@@ -112,7 +112,7 @@ The contact form submits to `POST /api/contact`. Outbound mail is sent with Node
 
 ### Abuse protection (rate limit)
 
-Before SMTP, the contact API applies a sliding-window rate limit (default **5 requests / hour**) per client IP **and** per normalized email. Over-limit requests return **429** with `Retry-After` and `X-RateLimit-*` headers.
+The contact API first checks SMTP configuration; deployments missing SMTP settings return **503** before parsing or rate limiting. Valid, SMTP-configured submissions are then checked against a sliding-window rate limit (default **5 requests / hour**) per client IP **and** per normalized email before mail is sent. Over-limit requests return **429** with `Retry-After` and `X-RateLimit-*` headers.
 
 | Variable | Description |
 |----------|-------------|
@@ -122,6 +122,16 @@ Before SMTP, the contact API applies a sliding-window rate limit (default **5 re
 | `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token |
 
 When Upstash is unset, the limiter falls back to an **in-memory** sliding window per warm serverless instance (best-effort across cold starts / multiple instances).
+
+Use numeric values for `CONTACT_RATE_LIMIT_MAX` and `CONTACT_RATE_LIMIT_WINDOW_MS`; they are read by the server process when the module loads, so redeploy or restart after changing them. For local testing with SMTP configured and default limits, submit the same email six times and expect the sixth response to be **429**:
+
+```bash
+for i in 1 2 3 4 5 6; do
+  curl -i -X POST http://localhost:3000/api/contact \
+    -H 'Content-Type: application/json' \
+    -d '{"name":"Docs Test","email":"docs-test@example.com","message":"Testing the contact rate limit."}'
+done
+```
 
 Input is Zod-validated and HTML-escaped in the email body; SMTP header fields (`subject`, `replyTo`) are sanitized.
 
