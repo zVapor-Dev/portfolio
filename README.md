@@ -13,6 +13,7 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 | CMS | [Payload 3](https://payloadcms.com/) at `/admin` |
 | Database | [Neon](https://neon.tech/) Postgres via `@payloadcms/db-postgres` |
 | Contact form | [Nodemailer](https://nodemailer.com/) SMTP (`POST /api/contact`) |
+| Rate limiting | [Upstash](https://upstash.com/) Redis (optional) + in-memory fallback |
 | 3D accent | Three.js / React Three Fiber (hero scene) |
 | Styling | Tailwind CSS |
 
@@ -21,6 +22,7 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 - Node.js **≥ 20.9** (see `.nvmrc` / `.node-version`)
 - A Neon Postgres database (or compatible Postgres)
 - SMTP credentials for the contact form (optional for local dev / builds)
+- Optional: Upstash Redis REST credentials for accurate contact rate limits on Vercel
 
 ## Local setup
 
@@ -88,9 +90,11 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 | Collection | `experience` | Work history entries |
 | Collection | `users` | Admin accounts (Payload auth) |
 
-Live preview is enabled for the collections and `site` global. Preview URLs use `NEXT_PUBLIC_SERVER_URL` and require `PREVIEW_SECRET`.
+Live preview is enabled for the collections and `site` global. Preview URLs use `NEXT_PUBLIC_SERVER_URL` and require `PREVIEW_SECRET`. Preview `path` values are allowlisted (site-relative paths only) to prevent open redirects.
 
 The navbar **Login** button links to `/admin` (desktop and mobile menu).
+
+Anonymous REST reads of `projects` only return **published** entries; authenticated admins still see drafts.
 
 ## Contact form (SMTP)
 
@@ -106,10 +110,25 @@ The contact form submits to `POST /api/contact`. Outbound mail is sent with Node
 | `SMTP_FROM` | From address (falls back to `SMTP_USER`) |
 | `CONTACT_TO` | Inbox that receives form submissions |
 
+### Abuse protection (rate limit)
+
+Before SMTP, the contact API applies a sliding-window rate limit (default **5 requests / hour**) per client IP **and** per normalized email. Over-limit requests return **429** with `Retry-After` and `X-RateLimit-*` headers.
+
+| Variable | Description |
+|----------|-------------|
+| `CONTACT_RATE_LIMIT_MAX` | Max submissions per window (default `5`) |
+| `CONTACT_RATE_LIMIT_WINDOW_MS` | Window length in ms (default `3600000` = 1 hour) |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST URL (recommended on Vercel) |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token |
+
+When Upstash is unset, the limiter falls back to an **in-memory** sliding window per warm serverless instance (best-effort across cold starts / multiple instances).
+
+Input is Zod-validated and HTML-escaped in the email body; SMTP header fields (`subject`, `replyTo`) are sanitized.
+
 **Notes for operators:**
 
 - `npm run build` succeeds without `SMTP_PASSWORD`. The contact form returns **503** until SMTP is fully configured.
-- Set production SMTP values in your deployment environment (e.g. Vercel project settings), not in the repo.
+- Set production SMTP and (recommended) Upstash values in your deployment environment (e.g. Vercel project settings), not in the repo.
 - Never commit secrets; use `.env.local` locally and platform env vars in production.
 
 ## Scripts
@@ -127,7 +146,7 @@ The contact form submits to `POST /api/contact`. Outbound mail is sent with Node
 
 ## Deployment
 
-The site is deployed on Vercel (`vercel.json` uses `npm ci` and `npm run build`). Production builds run **`payload migrate`** before `next build`, so `DATABASE_URL` and `PAYLOAD_SECRET` must be set in the Vercel project. Set `NEXT_PUBLIC_SERVER_URL` to `https://www.zvapor.xyz` in production.
+The site is deployed on Vercel (`vercel.json` uses `npm ci` and `npm run build`). Production builds run **`payload migrate`** before `next build`, so `DATABASE_URL` and `PAYLOAD_SECRET` must be set in the Vercel project. Set `NEXT_PUBLIC_SERVER_URL` to `https://www.zvapor.xyz` in production. For accurate contact rate limits across instances, also set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
 
 ## Changelog
 
