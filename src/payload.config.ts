@@ -59,6 +59,7 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: '— zVapor CMS',
+      icons: [{ rel: 'icon', type: 'image/svg+xml', url: '/logo.svg' }],
     },
     livePreview: {
       breakpoints: [

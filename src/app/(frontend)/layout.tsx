@@ -13,6 +13,13 @@ export const metadata: Metadata = {
   description:
     'Daan Vrieling (zVapor_) — Full-stack product engineer building web applications with TypeScript, React, and modern tooling.',
   metadataBase: new URL(getServerSideURL()),
+  icons: {
+    icon: [
+      { url: '/logo.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '48x48' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
 }
 
 export default async function RootLayout({
