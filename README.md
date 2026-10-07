@@ -14,6 +14,7 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 | Database | [Neon](https://neon.tech/) Postgres via `@payloadcms/db-postgres` |
 | Contact form | [Nodemailer](https://nodemailer.com/) SMTP (`POST /api/contact`) |
 | Rate limiting | [Upstash](https://upstash.com/) Redis (optional) + in-memory fallback |
+| Analytics | Vercel Web Analytics + Speed Insights |
 | 3D accent | Three.js / React Three Fiber (hero scene) |
 | Styling | Tailwind CSS |
 
@@ -130,6 +131,15 @@ Input is Zod-validated and HTML-escaped in the email body; SMTP header fields (`
 - `npm run build` succeeds without `SMTP_PASSWORD`. The contact form returns **503** until SMTP is fully configured.
 - Set production SMTP and (recommended) Upstash values in your deployment environment (e.g. Vercel project settings), not in the repo.
 - Never commit secrets; use `.env.local` locally and platform env vars in production.
+
+## Analytics and performance telemetry
+
+The public App Router layout (`src/app/(frontend)/layout.tsx`) mounts telemetry clients once for the whole frontend:
+
+- `<Analytics />` from `@vercel/analytics/next`
+- `<SpeedInsights />` from `@vercel/speed-insights/next`
+
+These clients do not read application environment variables. Keep them in the root layout so all public pages report through the same Vercel deployment.
 
 ## Scripts
 
