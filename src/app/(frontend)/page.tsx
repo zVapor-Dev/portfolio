@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
@@ -24,6 +26,14 @@ export default async function HomePage() {
       <footer className="relative z-10 border-t border-white/[0.06] px-5 py-8 text-center sm:px-8 lg:px-12">
         <p className="font-mono text-xs text-vapor-muted">
           © {new Date().getFullYear()} {content.site.name} · {content.site.handle}
+        </p>
+        <p className="mt-3 flex items-center justify-center gap-4 text-xs">
+          <Link href="/legal#privacy" className="text-vapor-muted hover:text-vapor-cyan">
+            Privacy
+          </Link>
+          <Link href="/legal#terms" className="text-vapor-muted hover:text-vapor-cyan">
+            Terms
+          </Link>
         </p>
       </footer>
     </>
