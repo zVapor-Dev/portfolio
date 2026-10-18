@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { SiteContent } from '@/lib/types'
 
@@ -83,6 +84,13 @@ export default function Contact({ site }: Props) {
             <button type="submit" className="btn-primary w-full sm:w-auto" disabled={loading}>
               {loading ? 'Sending…' : 'Send message'}
             </button>
+            <p className="text-xs leading-relaxed text-vapor-muted">
+              By sending a message you agree that I can use it to reply, as described in the{' '}
+              <Link href="/legal#privacy" className="text-vapor-cyan hover:underline">
+                privacy policy
+              </Link>
+              .
+            </p>
           </form>
         </motion.div>
       </div>
