@@ -167,8 +167,14 @@
   }
 }
 
-/* background space ship (SpaceShip.tsx): one pass across the page, then a long pause */
+
+/* background space ship (SpaceShip.tsx): one pass across the page every 40s,
+   shooting a star on the way. Ship, laser and star share one 40s cycle, so the
+   laser/star keyframes below are worked out from the ship's position at 17%. */
 .space-ship-layer {
+  --ship-w: clamp(72px, 8vw, 128px);
+  --ship-cycle: 40s;
+  --ship-delay: 2s;
   position: fixed;
   inset: 0;
   overflow: hidden;
@@ -181,12 +187,12 @@
   left: 0;
   opacity: 0;
   will-change: transform, opacity;
-  animation: ship-flight 40s linear 2s infinite;
+  animation: ship-flight var(--ship-cycle) linear var(--ship-delay) infinite;
 }
 
 .space-ship svg {
   display: block;
-  width: clamp(72px, 8vw, 128px);
+  width: var(--ship-w);
   height: auto;
   filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.45));
 }
@@ -199,6 +205,66 @@
   transform-box: fill-box;
   transform-origin: right center;
   animation: ship-flame 0.18s ease-in-out infinite alternate;
+}
+
+/* easter egg: five quick clicks on the navbar logo */
+.space-ship-summoned {
+  animation: ship-summon 2.8s ease-in-out forwards;
+}
+
+/* At 17% the ship's box sits at (50vw, 40vh) rotated -5deg, which puts its nose at
+   about (+0.96, +0.21) ship widths. The laser leaves from there and travels 25vw
+   along the -5deg heading to the star. */
+.space-ship-laser {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: calc(var(--ship-w) * 0.3);
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, #ec4899 40%, #fff);
+  box-shadow: 0 0 8px 1px rgba(236, 72, 153, 0.8);
+  transform-origin: 0 50%;
+  opacity: 0;
+  animation: ship-laser var(--ship-cycle) linear var(--ship-delay) infinite;
+}
+
+.space-ship-target {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(
+    calc(50vw + 0.96 * var(--ship-w) + 24.9vw),
+    calc(40vh + 0.21 * var(--ship-w) - 2.18vw)
+  );
+}
+
+.space-ship-star,
+.space-ship-burst {
+  position: absolute;
+  border-radius: 9999px;
+}
+
+.space-ship-star {
+  top: -2px;
+  left: -2px;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  box-shadow: 0 0 6px 2px rgba(168, 85, 247, 0.7);
+  opacity: 0;
+  animation: ship-star var(--ship-cycle) linear var(--ship-delay) infinite;
+}
+
+.space-ship-burst {
+  top: -14px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
+  border: 2px solid #00e5ff;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.7), inset 0 0 10px rgba(236, 72, 153, 0.6);
+  opacity: 0;
+  animation: ship-burst var(--ship-cycle) ease-out var(--ship-delay) infinite;
 }
 
 @keyframes ship-flight {
@@ -221,6 +287,105 @@
   }
   100% {
     transform: translate3d(120vw, 14vh, 0) rotate(-11deg);
+    opacity: 0;
+  }
+}
+
+@keyframes ship-laser {
+  0%,
+  16.99% {
+    transform: translate3d(
+        calc(50vw + 0.96 * var(--ship-w)),
+        calc(40vh + 0.21 * var(--ship-w)),
+        0
+      )
+      rotate(-5deg);
+    opacity: 0;
+  }
+  17% {
+    opacity: 1;
+  }
+  17.7% {
+    transform: translate3d(
+        calc(50vw + 0.96 * var(--ship-w) + 24.9vw - 0.3 * var(--ship-w)),
+        calc(40vh + 0.21 * var(--ship-w) - 2.18vw),
+        0
+      )
+      rotate(-5deg);
+    opacity: 1;
+  }
+  17.71%,
+  100% {
+    transform: translate3d(
+        calc(50vw + 0.96 * var(--ship-w) + 24.9vw - 0.3 * var(--ship-w)),
+        calc(40vh + 0.21 * var(--ship-w) - 2.18vw),
+        0
+      )
+      rotate(-5deg);
+    opacity: 0;
+  }
+}
+
+@keyframes ship-star {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  4%,
+  17.6% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  17.8% {
+    opacity: 1;
+    transform: scale(3.5);
+  }
+  19%,
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+
+@keyframes ship-burst {
+  0%,
+  17.69% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  17.7% {
+    opacity: 1;
+    transform: scale(0.3);
+  }
+  19.5%,
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes ship-summon {
+  0% {
+    transform: translate3d(-20vw, 62vh, 0) rotate(-14deg) scaleY(1);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  42% {
+    transform: translate3d(38vw, 36vh, 0) rotate(-10deg) scaleY(1);
+  }
+  52% {
+    transform: translate3d(56vw, 29vh, 0) rotate(-10deg) scaleY(-1);
+  }
+  62% {
+    transform: translate3d(74vw, 22vh, 0) rotate(-10deg) scaleY(1);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(120vw, 4vh, 0) rotate(-16deg) scaleY(1);
     opacity: 0;
   }
 }

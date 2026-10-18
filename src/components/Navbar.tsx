@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import { registerLogoClick } from '@/lib/shipEasterEgg'
 import type { NavLink, SiteContent } from '@/lib/types'
 
 type Props = {
@@ -31,7 +32,7 @@ export default function Navbar({ navLinks, site }: Props) {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
-        <Link href="/" className="group flex items-center gap-2.5">
+        <Link href="/" className="group flex items-center gap-2.5" onClick={registerLogoClick}>
           <Image src="/logo.svg" alt="zVapor logo" width={32} height={32} />
           <span className="font-display text-lg font-semibold text-white">
             {site.handle}
