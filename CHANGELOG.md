@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Animated space ship (`src/components/SpaceShip.tsx`): an SVG/CSS ship that flies across the background every 40 seconds and shoots a star with a laser on the way. It sits behind content, ignores pointer events and is hidden when `prefers-reduced-motion` is set.
+- Easter egg: clicking the navbar logo five times in quick succession sends an extra ship across the page with a barrel roll (`src/lib/shipEasterEgg.ts`).
 - Vercel Web Analytics (`@vercel/analytics`) and Speed Insights (`@vercel/speed-insights`) mounted in the public layout `src/app/(frontend)/layout.tsx` ([#24](https://github.com/zVapor-Dev/portfolio/pull/24)).
 - `docs/cms.md` (Payload runtime map, content model, `PAYLOAD_SECRET` behaviour, migrations, preview, troubleshooting) and `docs/SECURITY.md` (contact form, preview redirects, CMS URL validation, operational pitfalls).
 

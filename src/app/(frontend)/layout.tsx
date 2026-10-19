@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import StarsCanvas from '@/components/canvas/Stars'
+import SpaceShip from '@/components/SpaceShip'
 import { getServerSideURL } from '@/lib/url'
 
 import './globals.css'
@@ -36,6 +37,7 @@ export default async function RootLayout({
         <div className="relative z-0 min-h-screen bg-vapor-bg">
           <div className="pointer-events-none fixed inset-0 z-0">
             <StarsCanvas />
+            <SpaceShip />
           </div>
           <div className="relative z-10">{children}</div>
         </div>
