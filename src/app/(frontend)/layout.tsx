@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-import { Analytics } from '@vercel/analytics/next'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import StarsCanvas from '@/components/canvas/Stars'
@@ -42,8 +40,6 @@ export default async function RootLayout({
           <div className="relative z-10">{children}</div>
         </div>
         {isPreview && <LivePreviewListener />}
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   )

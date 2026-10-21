@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     'Terms of use and privacy policy for zvapor.xyz, the portfolio of Daan Vrieling (zVapor_).',
 }
 
-const UPDATED = '12 October 2026'
+const UPDATED = '21 October 2026'
 
 export default function LegalPage() {
   return (
@@ -92,28 +92,20 @@ export default function LegalPage() {
                   </li>
                   <li>
                     <strong className="font-medium text-white">
-                      Performance and page views.
-                    </strong>{' '}
-                    The site uses Vercel Speed Insights and Vercel Web
-                    Analytics. Those services receive technical data such as
-                    the page URL, referrer, country, browser, device type, and
-                    performance timings. They are not used to build an
-                    advertising profile.
-                  </li>
-                  <li>
-                    <strong className="font-medium text-white">
                       Hosting logs.
                     </strong>{' '}
-                    The host (Vercel) may log requests, including IP address
-                    and user agent, to operate and secure the site.
+                    The site runs on my own server in Finland, behind
+                    Cloudflare. Cloudflare and the server may log requests,
+                    including IP address and user agent, to operate and secure
+                    the site.
                   </li>
                 </ul>
               </Block>
 
               <Block title="Cookies">
                 <p>
-                  The public site does not set marketing or account cookies.
-                  Vercel Web Analytics and Speed Insights run without cookies.
+                  The public site does not set marketing, analytics or account
+                  cookies.
                   Signing in to the CMS at{' '}
                   <span className="font-mono text-xs text-white">/admin</span>{' '}
                   sets a session cookie for that login only. Visitors do not
@@ -124,9 +116,8 @@ export default function LegalPage() {
               <Block title="Why I use it">
                 <p>
                   I process contact details so I can reply to you. I process IP
-                  addresses and rate-limit keys to keep the form usable. I
-                  process performance and page-view data to see whether pages
-                  load properly and which pages are used.
+                  addresses and rate-limit keys to keep the form usable, and
+                  request logs to keep the site running and secure.
                   Under the GDPR, that is based on steps you take when you ask
                   me to contact you, and on my legitimate interest in running
                   and protecting the site.
@@ -136,18 +127,16 @@ export default function LegalPage() {
               <Block title="Who else sees it">
                 <p>I use a few processors to host and deliver the site:</p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
-                  <li>Vercel — hosting, Speed Insights, and Web Analytics.</li>
+                  <li>
+                    Cloudflare — DNS, delivery and protection of the site.
+                  </li>
                   <li>
                     The site mail server — delivery of contact-form messages.
                   </li>
                   <li>
                     Upstash — short-lived rate-limit keys, when that service is
                     configured. Otherwise those keys stay in server memory and
-                    are discarded when the instance goes cold.
-                  </li>
-                  <li>
-                    Neon — the database for CMS content and admin accounts, not
-                    for messages you send through the contact form.
+                    are discarded when the server restarts.
                   </li>
                 </ul>
                 <p className="mt-3">
@@ -167,9 +156,9 @@ export default function LegalPage() {
                 <p>
                   I keep contact emails for as long as I need them to handle
                   your message and any follow-up, then delete them. Rate-limit
-                  keys expire automatically with the limit window. Hosting and
-                  performance data are kept according to those providers’
-                  retention periods.
+                  keys expire automatically with the limit window. Request logs
+                  are kept according to Cloudflare’s and the server’s retention
+                  periods.
                 </p>
               </Block>
 

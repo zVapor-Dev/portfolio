@@ -58,9 +58,9 @@ lower-cased email are checked; all keys must pass.
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | unset | Enables shared Upstash Redis limits |
 
 - With Upstash configured, `@upstash/ratelimit` uses a sliding window with the
-  `portfolio-contact` prefix, shared across Vercel instances.
-- Without Upstash, an in-memory sliding window is kept per warm serverless
-  instance — fine locally, approximate in production.
+  `portfolio-contact` prefix, kept across restarts.
+- Without Upstash, an in-memory sliding window is kept in the server process
+  and reset on every restart.
 - `CONTACT_RATE_LIMIT_MAX` and `CONTACT_RATE_LIMIT_WINDOW_MS` are read **once at
   module load**, and the Upstash client is created once per instance. **Redeploy**
   (or restart the server) after changing any of these variables.
@@ -135,9 +135,9 @@ Read access:
 
 - Keep `PREVIEW_SECRET` server-side and rotate it if a preview URL leaks outside
   trusted admins.
-- Configure Upstash in production if rate limits must hold across instances.
-- Redeploy after changing `CONTACT_RATE_LIMIT_*` or Upstash variables.
+- Configure Upstash in production if rate limits must survive restarts.
+- Restart the server after changing `CONTACT_RATE_LIMIT_*` or Upstash variables.
 - `npm run seed` and `POST /next/seed` both **delete** CMS rows not in
   `src/seed/data.ts` — read [SEED.md](./SEED.md) before seeding a live database.
-- Never commit secrets: use `.env.local` locally and Vercel environment
-  variables in production.
+- Never commit secrets: use `.env.local` locally and the server's `.env` in
+  production.

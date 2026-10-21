@@ -36,7 +36,7 @@ collections has entries.
 
 | Variable | Purpose |
 |----------|---------|
-| `DATABASE_URL` (or `POSTGRES_URL`) | Neon Postgres connection string (pooled URL recommended) |
+| `DATABASE_URL` (or `POSTGRES_URL`) | Postgres connection string |
 | `PAYLOAD_SECRET` | Required to load the Payload config. Any non-empty value works for the CLI seed; reusing the environment's own value is simplest. |
 | `NEXT_PUBLIC_SERVER_URL` | Optional — used for live preview and the admin "View live site" link |
 
@@ -80,18 +80,21 @@ Consequences:
 - Renaming a title/name is safe if the `seedKey` stays the same; changing a
   `seedKey` creates a new document and deletes the old one.
 
-## Production (Neon)
+## Production
 
-1. Ensure migrations are applied (the Vercel build runs `payload migrate` on
-   every deploy).
-2. From a trusted machine with network access to Neon:
+The production database only accepts connections from servers on the same
+Pterodactyl panel, so run these from a machine (or panel server) that can reach it.
+
+1. Ensure migrations are applied (every server start runs `npm run build`,
+   which runs `payload migrate`).
+2. With the production environment loaded:
 
 ```bash
-export DATABASE_URL="postgresql://<user>:<password>@<host>/<db>?sslmode=require"
+export DATABASE_URL="postgresql://<user>:<password>@<host>:<port>/<db>"
 export PAYLOAD_SECRET="<any non-empty value; the production value is fine>"
 export NEXT_PUBLIC_SERVER_URL="https://www.zvapor.xyz"
 
-npm run migrate   # only needed if deploying schema changes before Vercel build
+npm run migrate   # only needed if deploying schema changes before the next restart
 npm run seed
 ```
 
