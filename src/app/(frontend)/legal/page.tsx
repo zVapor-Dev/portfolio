@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Terms & Privacy — zVapor_',
   description:
-    'Terms of use and privacy policy for zvapor.xyz, the portfolio of Daan Vrieling (zVapor_).',
+    'Terms of use and privacy policy for zvapor.xyz, the portfolio of zVapor_.',
 }
 
 const UPDATED = '12 October 2026'
@@ -38,7 +38,7 @@ export default function LegalPage() {
           <a href="https://www.zvapor.xyz" className="text-vapor-cyan">
             zvapor.xyz
           </a>
-          , the personal portfolio of Daan Vrieling (zVapor_).
+          , the personal portfolio of zVapor_.
         </p>
 
         <nav className="mt-8 flex flex-wrap gap-3">
@@ -58,7 +58,7 @@ export default function LegalPage() {
             <div className="mt-6 space-y-8 text-sm leading-relaxed text-vapor-muted">
               <Block title="Who I am">
                 <p>
-                  The site is operated by Daan Vrieling, based in the
+                  The site is operated by zVapor, based in the
                   Netherlands. For privacy questions, email{' '}
                   <a
                     href="mailto:contact@zvapor.xyz"
@@ -225,7 +225,7 @@ export default function LegalPage() {
               <Block title="Content">
                 <p>
                   Text, design, and original project material on this site
-                  belong to Daan Vrieling unless a project page says otherwise.
+                  belong to zVapor unless a project page says otherwise.
                   You may share links to the site. You may not copy the design
                   or republish the content as your own. Third-party names,
                   logos, and linked projects remain the property of their
@@ -278,7 +278,7 @@ export default function LegalPage() {
 
       <footer className="relative z-10 border-t border-white/[0.06] px-5 py-8 text-center sm:px-8">
         <p className="font-mono text-xs text-vapor-muted">
-          © {new Date().getFullYear()} Daan Vrieling · zVapor_
+          © {new Date().getFullYear()} zVapor_
         </p>
         <p className="mt-3 flex items-center justify-center gap-4 text-xs">
           <a href="#privacy" className="text-vapor-muted hover:text-vapor-cyan">

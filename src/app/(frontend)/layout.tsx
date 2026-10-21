@@ -13,7 +13,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'zVapor_ | Full-Stack Product Engineer',
   description:
-    'Daan Vrieling (zVapor_) — Full-stack product engineer building web applications with TypeScript, React, and modern tooling.',
+    'zVapor_ — Full-stack product engineer building web applications with TypeScript, React, and modern tooling.',
   metadataBase: new URL(getServerSideURL()),
   icons: {
     icon: [

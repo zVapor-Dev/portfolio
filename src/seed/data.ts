@@ -1,5 +1,5 @@
 export const seedSite = {
-  name: 'Daan Vrieling',
+  name: 'zVapor',
   handle: 'zVapor_',
   title: 'Full-Stack Product Engineer',
   location: 'Netherlands',
@@ -12,7 +12,7 @@ export const seedSite = {
   aboutParagraphs: [
     {
       paragraph:
-        "I'm Daan Vrieling (zVapor_) — a full-stack product engineer based in the Netherlands. I build web products end to end: typed APIs, polished interfaces, and deployments that stay maintainable as features grow.",
+        "I'm zVapor — a full-stack product engineer based in the Netherlands. I build web products end to end: typed APIs, polished interfaces, and deployments that stay maintainable as features grow.",
     },
     {
       paragraph:

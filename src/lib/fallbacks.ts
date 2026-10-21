@@ -2,7 +2,7 @@ import type { PortfolioContent } from './types'
 
 export const fallbackContent: PortfolioContent = {
   site: {
-    name: 'Daan Vrieling',
+    name: 'zVapor',
     handle: 'zVapor_',
     title: 'Full-Stack Product Engineer',
     location: 'Netherlands',
@@ -13,7 +13,7 @@ export const fallbackContent: PortfolioContent = {
     aboutLabel: 'About',
     aboutTitle: 'Product engineer, not just a template.',
     aboutParagraphs: [
-      "I'm Daan Vrieling (zVapor_) — a full-stack product engineer based in the Netherlands. I build web products end to end: typed APIs, polished interfaces, and deployments that stay maintainable as features grow.",
+      "I'm zVapor — a full-stack product engineer based in the Netherlands. I build web products end to end: typed APIs, polished interfaces, and deployments that stay maintainable as features grow.",
       'My work spans modern React frontends, Node backends with Prisma, auth with Clerk, and infrastructure on Vercel and Cloudflare. I care about clear architecture, accessible UI, and shipping things people actually use.',
       'Before focusing on web, I spent years building Discord bots and community tools — including published open-source packages and bots serving thousands of servers. That background taught me how to ship reliable software under real user pressure.',
     ],

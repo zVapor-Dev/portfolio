@@ -25,7 +25,7 @@ export default async function HomePage() {
       <Contact site={content.site} />
       <footer className="relative z-10 border-t border-white/[0.06] px-5 py-8 text-center sm:px-8 lg:px-12">
         <p className="font-mono text-xs text-vapor-muted">
-          © {new Date().getFullYear()} {content.site.name} · {content.site.handle}
+          © {new Date().getFullYear()} {content.site.handle}
         </p>
         <p className="mt-3 flex items-center justify-center gap-4 text-xs">
           <Link href="/legal#privacy" className="text-vapor-muted hover:text-vapor-cyan">
