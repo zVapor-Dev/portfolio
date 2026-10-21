@@ -21,13 +21,6 @@ function getPayloadSecret(): string {
   const secret = process.env.PAYLOAD_SECRET
   if (secret) return secret
 
-  const vercelEnv = process.env.VERCEL_ENV
-  if (vercelEnv === 'production' || vercelEnv === 'preview') {
-    throw new Error(
-      'PAYLOAD_SECRET environment variable is required on Vercel. Generate one with: openssl rand -base64 48',
-    )
-  }
-
   const isProductionRuntime =
     process.env.NODE_ENV === 'production' &&
     process.env.NEXT_PHASE !== 'phase-production-build'

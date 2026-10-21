@@ -58,13 +58,11 @@ The code only checks that the variable is non-empty. Behaviour of
 
 | Context | Result |
 |---------|--------|
-| Any Vercel build or runtime with `VERCEL_ENV=production` or `preview` | Throws |
 | `NODE_ENV=production` outside the Next.js build phase (e.g. `npm run start`) | Throws |
-| `NEXT_PHASE=phase-production-build` (a bare `next build`), not on Vercel | Uses a build-only placeholder |
+| `NEXT_PHASE=phase-production-build` (a bare `next build`) | Uses a build-only placeholder |
 | Everything else (`npm run dev`, Payload CLI commands, `npm run seed`, scripts) | Throws |
 
-The placeholder never applies on Vercel: the `VERCEL_ENV` check runs first.
-It also does not apply to `npm run build` locally, because that script runs
+The placeholder does not apply to `npm run build` locally, because that script runs
 `payload migrate` (a CLI command) before `next build`. In practice every
 environment needs a real secret.
 
@@ -76,8 +74,8 @@ environment needs a real secret.
   automatic schema push happens **only** under `npm run dev`. Pushed changes are
   not recorded as migrations.
 - `npm run build` runs `payload migrate && payload generate:types && next build`,
-  so every Vercel deploy applies pending migrations before building. A missing
-  database URL, missing `PAYLOAD_SECRET`, or failing migration fails the deploy.
+  so every server start applies pending migrations before building. A missing
+  database URL, missing `PAYLOAD_SECRET`, or failing migration stops the start.
 
 Changing a collection or global:
 
@@ -122,9 +120,9 @@ On success it enables draft mode and redirects to `path`.
 
 | Symptom | Check |
 |---------|-------|
-| `PAYLOAD_SECRET environment variable is required…` | Set `PAYLOAD_SECRET` in `.env.local`, your shell (CLI/scripts), or Vercel (Production **and** Preview). |
-| Vercel build fails in `payload migrate` | Build env has `DATABASE_URL`/`POSTGRES_URL` and `PAYLOAD_SECRET`; database reachable; migration SQL valid. |
-| Schema mismatch in production | Production never pushes schema. Create and commit a migration; the next deploy applies it. |
+| `PAYLOAD_SECRET environment variable is required…` | Set `PAYLOAD_SECRET` in `.env.local`, your shell (CLI/scripts), or the production server's `.env`. |
+| Server start fails in `payload migrate` | Build env has `DATABASE_URL`/`POSTGRES_URL` and `PAYLOAD_SECRET`; database reachable; migration SQL valid. |
+| Schema mismatch in production | Production never pushes schema. Create and commit a migration; the next restart applies it. |
 | Public page shows fallback content | Database URL set; `npm run migrate:status`; `site` has a name and at least one project/technology/experience exists. |
 | Project missing on the public page | `published` is checked. |
 | Preview returns 400 | `path` contains a disallowed character (e.g. `#`, `?`, `%`). |

@@ -5,10 +5,10 @@ import { Redis } from '@upstash/redis'
  * Contact form rate limiting.
  *
  * When UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN are set, uses
- * @upstash/ratelimit with a sliding window (accurate across Vercel instances).
+ * @upstash/ratelimit with a sliding window (shared across restarts and instances).
  *
- * Otherwise falls back to an in-memory sliding window per warm serverless
- * instance (approximate; documented limitation).
+ * Otherwise falls back to an in-memory sliding window in the running server
+ * process (reset on restart).
  */
 
 export type RateLimitResult = {
@@ -123,6 +123,10 @@ export async function checkContactRateLimit(
 }
 
 export function getClientIp(req: Request): string {
+  // Production sits behind Cloudflare, which sets the visitor's address here.
+  const cloudflare = req.headers.get('cf-connecting-ip')
+  if (cloudflare) return cloudflare.trim()
+
   const forwarded = req.headers.get('x-forwarded-for')
   if (forwarded) {
     return forwarded.split(',')[0]?.trim() || 'unknown'

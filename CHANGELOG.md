@@ -11,12 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Animated space ship (`src/components/SpaceShip.tsx`): an SVG/CSS ship that flies across the background every 40 seconds and shoots a star with a laser on the way. It sits behind content, ignores pointer events and is hidden when `prefers-reduced-motion` is set.
 - Easter egg: clicking the navbar logo five times in quick succession sends an extra ship across the page with a barrel roll (`src/lib/shipEasterEgg.ts`).
-- Vercel Web Analytics (`@vercel/analytics`) and Speed Insights (`@vercel/speed-insights`) mounted in the public layout `src/app/(frontend)/layout.tsx` ([#24](https://github.com/zVapor-Dev/portfolio/pull/24)).
 - `docs/cms.md` (Payload runtime map, content model, `PAYLOAD_SECRET` behaviour, migrations, preview, troubleshooting) and `docs/SECURITY.md` (contact form, preview redirects, CMS URL validation, operational pitfalls).
 
 ### Changed
 
-- Consolidated operator docs (supersedes draft docs PRs #10, #13, #14, #16, #18, #20, #21, #23, #25): README setup order (migrate before dev), contact check order (503 → 400 → 429 → send), new Admin access and Telemetry sections; `docs/SEED.md` documents pruning for both seed paths and that seed never creates users; `.env.example` notes `ADMIN_EMAIL`/`ADMIN_PASSWORD` are for the reset script only.
+- Hosting moved from Vercel to a Node.js server on the Pterodactyl panel behind Cloudflare, and the CMS database from Neon to self-hosted PostgreSQL. README, `.env.example`, `docs/` and the privacy notice on `/legal` describe the new setup.
+- The contact form rate limiter reads the visitor address from `cf-connecting-ip` first.
+- `package-lock.json` regenerated so `npm ci` works again.
+- Consolidated operator docs (supersedes draft docs PRs #10, #13, #14, #16, #18, #20, #21, #23, #25): README setup order (migrate before dev), contact check order (503 → 400 → 429 → send), new Admin access section; `docs/SEED.md` documents pruning for both seed paths and that seed never creates users; `.env.example` notes `ADMIN_EMAIL`/`ADMIN_PASSWORD` are for the reset script only.
+
+### Removed
+
+- Vercel Web Analytics and Speed Insights (added in [#24](https://github.com/zVapor-Dev/portfolio/pull/24)), `vercel.json` and the `VERCEL_*` URL and secret fallbacks.
 
 ## [3.0.1] - 2026-09-13
 

@@ -11,19 +11,18 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 |-------|------------|
 | Framework | [Next.js 15](https://nextjs.org/) (App Router) |
 | CMS | [Payload 3](https://payloadcms.com/) at `/admin` |
-| Database | [Neon](https://neon.tech/) Postgres via `@payloadcms/db-postgres` |
+| Database | PostgreSQL via `@payloadcms/db-postgres` (self-hosted in production) |
 | Contact form | [Nodemailer](https://nodemailer.com/) SMTP (`POST /api/contact`) |
 | Rate limiting | [Upstash](https://upstash.com/) Redis (optional) + in-memory fallback |
-| Telemetry | [Vercel Web Analytics](https://vercel.com/docs/analytics) + [Speed Insights](https://vercel.com/docs/speed-insights) |
 | 3D accent | Three.js / React Three Fiber (hero scene) |
 | Styling | Tailwind CSS |
 
 ## Requirements
 
 - Node.js **≥ 20.9** (see `.nvmrc` / `.node-version`)
-- A Neon Postgres database (or compatible Postgres)
+- A PostgreSQL database
 - SMTP credentials for the contact form (optional for local dev / builds)
-- Optional: Upstash Redis REST credentials for accurate contact rate limits on Vercel
+- Optional: Upstash Redis REST credentials so contact rate limits survive restarts
 
 ## Local setup
 
@@ -43,7 +42,7 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 
    | Variable | Purpose |
    |----------|---------|
-   | `DATABASE_URL` | Neon Postgres connection string (pooled URL recommended) |
+   | `DATABASE_URL` | Postgres connection string |
    | `PAYLOAD_SECRET` | Random secret (required; generate with `openssl rand -base64 48`) |
    | `PREVIEW_SECRET` | Secret for CMS live preview |
    | `NEXT_PUBLIC_SERVER_URL` | Public site URL (`http://localhost:3000` locally) |
@@ -145,25 +144,21 @@ The contact form submits to `POST /api/contact`. Outbound mail is sent with Node
 |----------|-------------|
 | `CONTACT_RATE_LIMIT_MAX` | Max submissions per window (default `5`) |
 | `CONTACT_RATE_LIMIT_WINDOW_MS` | Window length in ms (default `3600000` = 1 hour) |
-| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST URL (recommended on Vercel) |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST URL (optional) |
 | `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token |
 
-When Upstash is unset, the limiter falls back to an **in-memory** sliding window per warm serverless instance (best-effort across cold starts / multiple instances).
+When Upstash is unset, the limiter falls back to an **in-memory** sliding window in the server process (reset on restart).
 
 Input is Zod-validated and HTML-escaped in the email body; SMTP header fields (`subject`, `replyTo`) are sanitized.
 
 **Notes for operators:**
 
 - `npm run build` succeeds without `SMTP_PASSWORD`. The contact form returns **503** until SMTP is fully configured.
-- Set production SMTP and (recommended) Upstash values in your deployment environment (e.g. Vercel project settings), not in the repo.
+- Set production SMTP and (optional) Upstash values in the server's environment, not in the repo.
 - Never commit secrets; use `.env.local` locally and platform env vars in production.
 - `CONTACT_RATE_LIMIT_*` are read when the module loads; redeploy (or restart) after changing them.
 
 More detail: **[docs/SECURITY.md](./docs/SECURITY.md)**.
-
-## Telemetry
-
-The public layout `src/app/(frontend)/layout.tsx` mounts `<Analytics />` (`@vercel/analytics/next`) and `<SpeedInsights />` (`@vercel/speed-insights/next`) once for all public pages. The Payload admin (`src/app/(payload)`) has its own layout and does not mount them. Neither component reads app environment variables; data shows up in the Vercel dashboard when Web Analytics / Speed Insights are enabled for the project.
 
 ## Scripts
 
@@ -180,7 +175,7 @@ The public layout `src/app/(frontend)/layout.tsx` mounts `<Analytics />` (`@verc
 
 ## Deployment
 
-The site is deployed on Vercel (`vercel.json` uses `npm ci` and `npm run build`). Production builds run **`payload migrate`** before `next build`, so `DATABASE_URL` and `PAYLOAD_SECRET` must be set in the Vercel project. Set `NEXT_PUBLIC_SERVER_URL` to `https://www.zvapor.xyz` in production. For accurate contact rate limits across instances, also set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
+The site runs as a Node.js server on a Pterodactyl panel behind Cloudflare. On every start the server pulls `master`, then runs `npm ci`, `npm run build` and `npm run start -- -p <port> -H 0.0.0.0`. The build runs **`payload migrate`** before `next build`, so `DATABASE_URL` and `PAYLOAD_SECRET` must be in the server's `.env`. Set `NEXT_PUBLIC_SERVER_URL` to `https://www.zvapor.xyz` in production. Restarting the server deploys the latest `master`.
 
 ## Documentation
 
