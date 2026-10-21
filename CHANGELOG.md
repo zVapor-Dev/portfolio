@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The site names its owner as zVapor / zVapor_ instead of a personal name: meta description, legal page, footers, and the seed/fallback `site.name` and About text ([#29](https://github.com/zVapor-Dev/portfolio/pull/29)). The live hero and About text come from the Payload `site` global and need the same edit in the admin.
 - Consolidated operator docs (supersedes draft docs PRs #10, #13, #14, #16, #18, #20, #21, #23, #25): README setup order (migrate before dev), contact check order (503 → 400 → 429 → send), new Admin access and Telemetry sections; `docs/SEED.md` documents pruning for both seed paths and that seed never creates users; `.env.example` notes `ADMIN_EMAIL`/`ADMIN_PASSWORD` are for the reset script only.
 
 ## [3.0.1] - 2026-09-13
