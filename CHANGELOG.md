@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Upgraded Payload CMS and all `@payloadcms/*` packages from 3.31.0 to 3.91.0, fixing the open Payload advisories (including the critical GHSA-f7hx-52q9-hcrf, GHSA-66wr-7vmr-p5jq, GHSA-vc4h-q48j-5hcx, GHSA-v49j-62m6-pgrr and GHSA-hp5w-3hxx-vmwf).
+- Upgraded Next.js from 15.5 to 16.4 (Payload 3.91 does not support Next 15.5; Next 16.4 also clears the open Next 15.5 advisories), React to 19.2 and `sharp` to 0.35.
+
 ### Added
 
 - Animated space ship (`src/components/SpaceShip.tsx`): an SVG/CSS ship that flies across the background every 40 seconds and shoots a star with a laser on the way. It sits behind content, ignores pointer events and is hidden when `prefers-reduced-motion` is set.
@@ -15,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- New migration `20261028_042424_payload_3_91_upgrade` adds the `users_sessions` and `payload_kv` tables and `users.reset_password_requested_at` that Payload 3.91 needs. It runs automatically through `payload migrate` in `npm run build`.
+- `next.config.ts` is now `next.config.mjs` (Next 16 can't load a TypeScript config in this ESM package).
+- `npm run lint` uses the ESLint CLI with `eslint.config.mjs`, because Next 16 removed `next lint`.
 - Hosting moved from Vercel to a Node.js server on the Pterodactyl panel behind Cloudflare, and the CMS database from Neon to self-hosted PostgreSQL. README, `.env.example`, `docs/` and the privacy notice on `/legal` describe the new setup.
 - The contact form rate limiter reads the visitor address from `cf-connecting-ip` first.
 - `package-lock.json` regenerated so `npm ci` works again.

@@ -9,7 +9,7 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 
 | Layer | Technology |
 |-------|------------|
-| Framework | [Next.js 15](https://nextjs.org/) (App Router) |
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
 | CMS | [Payload 3](https://payloadcms.com/) at `/admin` |
 | Database | PostgreSQL via `@payloadcms/db-postgres` (self-hosted in production) |
 | Contact form | [Nodemailer](https://nodemailer.com/) SMTP (`POST /api/contact`) |
@@ -19,7 +19,7 @@ Personal portfolio site for [zvapor.xyz](https://www.zvapor.xyz), built with Nex
 
 ## Requirements
 
-- Node.js **≥ 20.9** (see `.nvmrc` / `.node-version`)
+- Node.js **≥ 20.18.1** (22 recommended) (see `.nvmrc` / `.node-version`)
 - A PostgreSQL database
 - SMTP credentials for the contact form (optional for local dev / builds)
 - Optional: Upstash Redis REST credentials so contact rate limits survive restarts
@@ -171,7 +171,7 @@ More detail: **[docs/SECURITY.md](./docs/SECURITY.md)**.
 | `npm run start` | Run production server |
 | `npm run seed` | Upsert CMS content from `src/seed/data.ts` (see [docs/SEED.md](./docs/SEED.md)) |
 | `npm run generate:types` | Regenerate `src/payload-types.ts` |
-| `npm run lint` | Run Next.js ESLint |
+| `npm run lint` | Run ESLint (flat config in `eslint.config.mjs`) |
 
 ## Deployment
 
